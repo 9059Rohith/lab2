@@ -1,0 +1,76 @@
+.voice-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--star-gold);
+  background: linear-gradient(135deg, var(--star-gold), var(--nebula-pink));
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  z-index: 9999;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+.voice-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 50px rgba(255, 215, 0, 0.9);
+}
+
+.voice-toggle.active {
+  background: linear-gradient(135deg, var(--star-gold), var(--alien-green));
+  animation: pulse 2s infinite;
+}
+
+.voice-toggle.muted {
+  background: linear-gradient(135deg, #666, #999);
+  border-color: #999;
+  animation: none;
+}
+
+.voice-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.voice-text {
+  font-size: 0.5rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Fredoka One', cursive;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+  }
+}
+
+@media (max-width: 768px) {
+  .voice-toggle {
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .voice-icon {
+    font-size: 1.5rem;
+  }
+  
+  .voice-text {
+    font-size: 0.4rem;
+  }
+}
