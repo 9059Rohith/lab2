@@ -1,209 +1,78 @@
-# 🚀 Star Math Explorer - Autism Education Portal
+﻿# 🚀 Star Math Explorer
 
-<div align="center">
+**A Professional Educational Platform for Mathematical Symbol Learning**
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![React](https://img.shields.io/badge/React-19.2.0-blue.svg)
-![Node](https://img.shields.io/badge/Node.js-18+-green.svg)
-![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green.svg)
+[![React](https://img.shields.io/badge/React-19.2.0-blue.svg)](https://reactjs.org/)
+[![Node](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green.svg)](https://www.mongodb.com/)
 
-**An Interactive Space-Themed Math Learning Platform for Children with Autism Spectrum Disorder**
-
-[Live Demo](#) | [Documentation](./autism_portal_documentation.tex) | [Deployment Guide](./DEPLOYMENT_GUIDE.md)
-
-</div>
+An interactive web application designed specifically for children with Autism Spectrum Disorder (ASD) to learn mathematical symbols through evidence-based educational approaches.
 
 ---
 
-## 📖 Table of Contents
+## 🌟 Features
 
-- [About](#about)
-- [Features](#features)
-- [Technologies](#technologies)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Usage](#usage)
-- [API Documentation](#api-documentation)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
-- [Credits](#credits)
+- **27+ Mathematical Symbols** organized by category (Basic, Special, Comparison, Fractions)
+- **Interactive Learning Activities** including Quiz, Memory Match, and Symbol Matching games
+- **Progress Tracking** with achievements and category-specific analytics
+- **Speech Synthesis** for audio pronunciation of symbols and descriptions
+- **Professional Educational Design** with minimal animations and clear visual hierarchy
+- **Responsive Design** works on desktop, tablet, and mobile devices
 
 ---
 
-## 🌟 About
-
-**Star Math Explorer** is a comprehensive educational web application specifically designed for children with Autism Spectrum Disorder (ASD). It combines engaging space-themed visuals, interactive games, and evidence-based learning approaches to teach mathematical symbols in an accessible and enjoyable way.
-
-### Why This Application?
-
-Children with ASD often face unique challenges in traditional educational settings:
-- Visual learning preferences
-- Need for predictable, consistent interfaces
-- Benefits from repetition and self-paced learning
-- Require reduced sensory overload
-
-Star Math Explorer addresses these needs through:
-- ✨ Clear, colorful visual symbols
-- 🔊 Optional audio pronunciation
-- 🎮 Interactive learning games
-- 📊 Progress tracking and achievements
-- 🚀 Engaging space adventure theme
-
----
-
-## ✨ Features
-
-### 🏠 Landing Page
-- Welcoming space-themed interface
-- Animated background with stars
-- Easy navigation to all sections
-- Voice-guided welcome messages
-
-### 📚 Learning Module
-- **27+ Math Symbols** organized by category:
-  - Basic Operations (➕ ➖ ✖️ ➗ =)
-  - Special Symbols (π ∞ √ ∑ ² ³)
-  - Comparison Operators (< > ≤ ≥ ≠ ≈)
-  - Fractions (½ ⅓ ¼ ¾)
-- Visual cards with descriptions
-- Audio pronunciation with text-to-speech
-- Real-world examples and emoji visualizations
-- "I Learned This!" tracking system
-- Celebratory confetti animations
-
-### 🎮 Interactive Activities
-Three engaging game modes:
-1. **Symbol Quiz** - Identify math symbols
-2. **Memory Match** - Find matching symbol pairs
-3. **Match Game** - Connect symbols with descriptions
-
-Features:
-- Score tracking
-- Instant feedback
-- Encouraging messages
-- No time pressure - learn at your own pace
-
-### 📊 Progress Tracking
-- Personalized progress dashboard
-- Overall completion percentage
-- Category-specific progress
-- Achievement badges system
-- Recently learned symbols
-- Total score and games played
-- Encouraging progress messages
-
-### ℹ️ About Page
-- Application mission and purpose
-- Feature highlights
-- Educational approach
-- Technology stack information
-- Contact information
-
-### 👥 Team Page
-- Developer information
-- Project advisor details
-- Special thanks section
-- Project purpose and vision
-- Contribution guidelines
-
-### 🎨 User Experience
-- **Voice Toggle** - Enable/disable audio throughout app
-- **Animated Backgrounds** - Calming star field animations
-- **Responsive Design** - Works on desktop, tablet, and mobile
-- **Autism-Friendly UI**:
-  - High contrast colors
-  - Clear, large buttons
-  - Consistent navigation
-  - Minimal distractions
-  - Predictable interactions
-
----
-
-## 🛠️ Technologies
-
-### Frontend
-- **React 19.2.0** - UI framework
-- **React Router 6** - Navigation
-- **Vite 8.0** - Build tool and dev server
-- **Axios** - HTTP client
-- **Web Speech API** - Text-to-speech functionality
-- **CSS3** - Styling with animations
-
-### Backend
-- **Node.js 18+** - Runtime environment
-- **Express.js 4** - Web framework
-- **MongoDB Atlas** - Cloud database
-- **Mongoose 8** - MongoDB object modeling
-- **CORS** - Cross-origin resource sharing
-- **dotenv** - Environment variable management
-
-### Development Tools
-- **ESLint** - Code linting
-- **Vite HMR** - Hot module replacement
-- **Git** - Version control
-
----
-
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js (v18 or higher)
+
+- Node.js 18 or higher
+- MongoDB Atlas account (or local MongoDB)
 - npm or yarn
-- MongoDB Atlas account (free tier works)
-- Modern web browser with speech synthesis support
 
 ### Installation
 
 1. **Clone the repository**
-   ```bash
-   git clone https://github.com/9059Rohith/lab2.git
-   cd lab2
-   ```
+```bash
+git clone https://github.com/9059Rohith/lab2.git
+cd lab2
+```
 
-2. **Install Backend Dependencies**
-   ```bash
-   cd backend
-   npm install
-   ```
+2. **Install dependencies**
+```bash
+# Install backend dependencies
+cd backend
+npm install
 
-3. **Configure Backend Environment**
-   ```bash
-   # Create .env file
-   cp .env.example .env
-   
-   # Edit .env and add your MongoDB URI
-   MONGODB_URI=your_mongodb_connection_string
-   PORT=3000
-   NODE_ENV=development
-   ```
+# Install frontend dependencies
+cd ../frontend
+npm install
+```
 
-4. **Install Frontend Dependencies**
-   ```bash
-   cd ../frontend
-   npm install
-   ```
+3. **Configure environment variables**
+```bash
+cd backend
+cp .env.example .env
+# Edit .env with your MongoDB connection string
+```
 
-5. **Start Development Servers**
+4. **Start the application**
 
-   **Terminal 1 - Backend:**
-   ```bash
-   cd backend
-   npm start
-   ```
+**Terminal 1 - Backend:**
+```bash
+cd backend
+npm start
+```
 
-   **Terminal 2 - Frontend:**
-   ```bash
-   cd frontend
-   npm run dev
-   ```
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm run dev
+```
 
-6. **Open Your Browser**
-   ```
-   Frontend: http://localhost:5173
-   Backend API: http://localhost:3000
-   ```
+5. **Open your browser**
+```
+http://localhost:5173
+```
 
 ---
 
@@ -211,272 +80,160 @@ Features:
 
 ```
 lab2/
-├── frontend/                      # React frontend application
-│   ├── public/                    # Static assets
+├── frontend/              # React + Vite application
 │   ├── src/
-│   │   ├── assets/               # Images and media files
-│   │   ├── components/           # Reusable React components
-│   │   │   ├── Navigation.jsx
-│   │   │   ├── StarField.jsx
-│   │   │   └── VoiceToggle.jsx
-│   │   ├── pages/                # Page components
-│   │   │   ├── LandingPage.jsx
-│   │   │   ├── LearnPage.jsx
-│   │   │   ├── ActivitiesPage.jsx
-│   │   │   ├── ProgressPage.jsx
-│   │   │   ├── AboutPage.jsx
-│   │   │   └── TeamPage.jsx
-│   │   ├── data/                 # Data files
-│   │   │   └── symbolsData.js
-│   │   ├── utils/                # Utility functions
-│   │   │   └── voiceService.js
-│   │   ├── App.jsx               # Main app component
-│   │   ├── App.css               # App styles
-│   │   ├── index.css             # Global styles
-│   │   └── main.jsx              # Entry point
+│   │   ├── components/   # Reusable UI components
+│   │   ├── pages/        # Page components
+│   │   ├── assets/       # Images and static files
+│   │   ├── data/         # Symbol data
+│   │   └── utils/        # Helper functions
 │   ├── package.json
-│   ├── vite.config.js
-│   └── vercel.json               # Vercel deployment config
+│   └── vercel.json       # Vercel deployment config
 │
-├── backend/                       # Express backend API
-│   ├── server.js                 # Main server file
+├── backend/              # Express + MongoDB API
+│   ├── server.js         # Main server file
 │   ├── package.json
-│   ├── .env                      # Environment variables (gitignored)
-│   ├── .env.example              # Example environment file
-│   └── vercel.json               # Vercel deployment config
+│   ├── .env.example      # Environment variables template
+│   └── vercel.json       # Vercel deployment config
 │
-├── autism_portal_documentation.tex  # LaTeX documentation
-├── DEPLOYMENT_GUIDE.md              # Deployment instructions
-├── netlify.toml                     # Netlify config
-└── README.md                        # This file
+├── netlify.toml          # Netlify deployment config
+├── start.bat             # Windows startup script
+├── start.sh              # Unix startup script
+└── README.md
 ```
 
 ---
 
-## 📖 Usage
+## 🌐 Deployment
 
-### For Children
+### Deploy Frontend to Vercel
 
-1. **Start Learning**
-   - Click "Start Learning" on the home page
-   - Browse through colorful symbol cards
-   - Click "🔊 Speak" to hear each symbol
-   - Click "⭐ I Learned This!" when you master a symbol
+1. Push your code to GitHub
+2. Import your repository on [Vercel](https://vercel.com)
+3. Set root directory to `frontend`
+4. Deploy!
 
-2. **Play Games**
-   - Click "Play Activities"
-   - Choose between three fun games
-   - Earn points and have fun learning!
+### Deploy Frontend to Netlify
 
-3. **Check Progress**
-   - Click "My Progress"
-   - See how many symbols you've learned
-   - Unlock achievement badges
-   - Get encouraging messages
+The project is preconfigured with `netlify.toml`:
 
-### For Parents & Educators
+1. Push your code to GitHub
+2. Import your repository on [Netlify](https://netlify.com)
+3. Netlify will automatically detect the configuration
+4. Deploy!
 
-1. **Monitor Progress**
-   - View the child's progress dashboard
-   - Track learned symbols and scores
-   - See category-specific progress
+### Deploy Backend to Vercel
 
-2. **Customize Experience**
-   - Use the voice toggle to enable/disable audio based on sensory needs
-   - Allow the child to work at their own pace
-   - Encourage achievement celebration
+1. Import your repository on Vercel
+2. Create a new project for the backend
+3. Set root directory to `backend`
+4. Add environment variables:
+   - `MONGODB_URI`: Your MongoDB connection string
+   - `NODE_ENV`: production
+5. Deploy!
 
-3. **Provide Support**
-   - Sit with the child during initial sessions
-   - Help connect learned symbols to real-world objects
-   - Celebrate achievements together
+**Environment Variables Required:**
+- `MONGODB_URI`: MongoDB Atlas connection string
+- `PORT`: (Optional) Default is 3000
 
 ---
 
-## 🔌 API Documentation
+## 🎮 Usage
 
-### Base URL
-```
-Development: http://localhost:3000/api
-Production: https://your-backend-url.com/api
-```
+### Learning Module
+1. Enter your name on the welcome screen
+2. Browse symbols by category (All, Basic, Special, Comparison, Fractions)
+3. Click "🔊 Speak" to hear pronunciation
+4. Click "Mark as Learned" to track progress
 
-### Endpoints
+### Interactive Activities
+- **Symbol Quiz**: Identify symbols from multiple choices
+- **Memory Match**: Find matching pairs of symbols
+- **Symbol Matching**: Connect symbols with their descriptions
 
-#### Health Check
-```http
-GET /api/health
-```
-Returns API status and database connection state.
-
-#### Progress Management
-
-**Save Child Progress**
-```http
-POST /api/progress
-Content-Type: application/json
-
-{
-  "childName": "John",
-  "age": 8,
-  "level": "Beginner",
-  "parentEmail": "parent@example.com"
-}
-```
-
-**Get Progress by Name**
-```http
-GET /api/progress/:name
-```
-
-**Update Progress**
-```http
-PUT /api/progress/:id
-```
-
-#### Symbol Learning
-
-**Mark Symbol as Learned**
-```http
-POST /api/symbol-learned
-Content-Type: application/json
-
-{
-  "childName": "John",
-  "symbol": "➕",
-  "symbolName": "Plus",
-  "category": "basic"
-}
-```
-
-**Get Learned Symbols**
-```http
-GET /api/symbol-learned/:name
-```
-
-#### Feedback
-
-**Submit Feedback**
-```http
-POST /api/feedback
-Content-Type: application/json
-
-{
-  "childName": "John",
-  "activitiesTried": ["Quiz", "Memory"],
-  "funRating": "😊",
-  "parentComments": "Great app!"
-}
-```
-
-#### Statistics
-
-**Get Overall Stats**
-```http
-GET /api/stats
-```
+### Progress Tracking
+- View overall learning progress
+- Track symbols learned by category
+- Earn achievement badges
+- Monitor activity completion
 
 ---
 
-## 🚀 Deployment
+## 🛠️ Technologies
 
-See the comprehensive [Deployment Guide](./DEPLOYMENT_GUIDE.md) for detailed instructions on deploying to:
-- Vercel
-- Netlify
-- Render
-- Railway
-- GitHub Pages
+### Frontend
+- React 19.2.0
+- React Router 6.30.3
+- Vite 8.0.0
+- Axios for API calls
 
-Quick Deploy Options:
+### Backend
+- Node.js & Express 4.18.2
+- MongoDB with Mongoose 8.0.0
+- CORS enabled
+- RESTful API design
 
-**Frontend to Netlify:**
-```bash
-cd frontend
-npm run build
-netlify deploy --prod
-```
-
-**Backend to Vercel:**
-```bash
-cd backend
-vercel --prod
-```
+### Deployment
+- Vercel (Frontend & Backend)
+- Netlify (Alternative for Frontend)
+- MongoDB Atlas (Database)
 
 ---
 
-## 🤝 Contributing
+## 📊 API Endpoints
 
-We welcome contributions from educators, developers, and anyone passionate about accessible education!
+### Progress API
+- `GET /api/progress/:childName` - Get user progress
+- `POST /api/symbol-learned` - Mark symbol as learned
+- `POST /api/game-played` - Record game activity
 
-### How to Contribute
+---
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 🎨 Design Philosophy
 
-### Areas for Contribution
+This application follows evidence-based principles for autism education:
 
-- Adding more math symbols and concepts
-- Creating additional learning games
-- Improving accessibility features
-- Translating to other languages
-- Enhancing mobile experience
-- Adding more achievement badges
-- Improving documentation
+- **Visual Clarity**: Clean layouts with clear visual hierarchy
+- **Predictable Interface**: Consistent navigation and interaction patterns
+- **Minimal Distractions**: Reduced animations and sensory overload
+- **Self-Paced Learning**: No time pressure or forced progression
+- **Positive Reinforcement**: Encouraging feedback and achievement system
+
+---
+
+## 👨‍💻 Developer
+
+**Rohith Kumar**  
+Roll No: CB.SC.U4CSE23018  
+Amrita Vishwa Vidyapeetham, Coimbatore
+
+**Course Teacher:** Dr. T. Senthil Kumar  
+Amrita School of Computing
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 👨‍💻 Credits
+## 🙏 Acknowledgments
 
-### Developer
-**Rohith Kumar**
-- Roll No: CB.SC.U4CSE23018
-- Department: CSE-A
-- Institution: Amrita Vishwa Vidyapeetham
-- GitHub: [@9059Rohith](https://github.com/9059Rohith)
-
-### Project Advisor
-**Dr. T. Senthil Kumar**
-- Professor, Amrita School of Computing
-- Amrita Vishwa Vidyapeetham, Coimbatore
-- Email: t_senthilkumar@cb.amrita.edu
-
-### Special Thanks
-- Parents and families who provided valuable feedback
-- Special education teachers for their expertise
-- The autism education research community
-- All children who inspired this project
+- Special thanks to parents, educators, and children who provided feedback
+- Research community for evidence-based practices in autism education
+- Open source community for the amazing tools and libraries
 
 ---
 
-## 📞 Contact & Support
+## 📞 Support
 
-- **Email:** rohithkumar@example.com
-- **GitHub Issues:** [Report a bug](https://github.com/9059Rohith/lab2/issues)
-- **GitHub Repository:** [9059Rohith/lab2](https://github.com/9059Rohith/lab2)
-
----
-
-## 🌟 Acknowledgments
-
-This project was developed as part of academic coursework at Amrita Vishwa Vidyapeetham, with the goal of creating meaningful educational technology that serves children with special needs.
-
-Special acknowledgment to the autism education community for research and best practices that informed this application's design and development.
+For issues, questions, or contributions:
+- GitHub Issues: [https://github.com/9059Rohith/lab2/issues](https://github.com/9059Rohith/lab2/issues)
+- Repository: [https://github.com/9059Rohith/lab2](https://github.com/9059Rohith/lab2)
 
 ---
 
 <div align="center">
-
-**Made with ❤️ for amazing kids exploring the world of mathematics**
-
-⭐ Star this repository if you find it helpful!
-
+Made with ❤️ for accessible education
 </div>
