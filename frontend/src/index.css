@@ -1,14 +1,20 @@
-/* Root Variables - Space Theme Colors */
+/* Root Variables - ASD-Friendly Space Theme Colors */
 :root {
-  /* Custom Color Palette */
-  --primary-gold: #FFD700;
-  --primary-pink: #FF6B9D;
-  --primary-blue: #00d4ff;
-  --primary-purple: #8A2BE2;
-  --primary-green: #00FF88;
+  /* Soft, Calming Color Palette for ASD */
+  --primary-gold: #C7A568;
+  --primary-pink: #D4A5C0;
+  --primary-blue: #6BA3BE;
+  --primary-purple: #8B7FA8;
+  --primary-green: #88C9A1;
+  
+  /* Deep Navy and Muted Tones */
+  --deep-navy: #1a2332;
+  --muted-indigo: #4a5568;
+  --soft-violet: #b4a5d6;
+  --subtle-teal: #7eb8b0;
   
   /* Background */
-  --bg-space: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  --bg-space: linear-gradient(135deg, #1a2332, #2d3748, #1a2332);
   
   /* Fonts */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,14 +38,14 @@
   box-sizing: border-box;
 }
 
-/* Body Styling - Space Background */
+/* Body Styling - Calming Space Background */
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  background: linear-gradient(135deg, var(--deep-navy), var(--muted-indigo), var(--deep-navy));
   background-attachment: fixed;
-  color: #fff;
+  color: #f0f4f8;
   overflow-x: hidden;
 }
 
@@ -83,23 +89,25 @@ a:hover {
   color: var(--primary-gold);
 }
 
-/* Buttons - Base Styles */
+/* Buttons - Large Touch Targets for ASD */
 button {
-  border-radius: 30px;
-  border: 2px solid transparent;
-  padding: 12px 24px;
-  font-size: 16px;
+  border-radius: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  padding: 18px 36px;
+  font-size: 20px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.4), rgba(0, 191, 255, 0.4));
+  transition: all 0.6s ease;
+  background: linear-gradient(135deg, var(--soft-violet), var(--subtle-teal));
   color: #fff;
+  min-height: 60px;
+  min-width: 140px;
 }
 
 button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(107, 163, 190, 0.5);
   border-color: var(--primary-gold);
 }
 

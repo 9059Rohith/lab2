@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { speakOnPageLoad, speakOnHover } from '../utils/voiceService';
-import rocket from '../assets/rocket.png';
-import earth from '../assets/earth.png';
-import moon from '../assets/moon.png';
-import saturn from '../assets/saturn.png';
+import rocketLogo from '../assets/blue_rocket_logo_stellar.png';
+import blueCrystal from '../assets/blue_crystal.png';
+import greenCrystal from '../assets/green_crystal.png';
+import purpleCrystal from '../assets/purple crystal.png';
+import superCrystal from '../assets/super_main_crystal.png';
 import './LandingPage.css';
 
 function LandingPage({ voiceEnabled }) {
@@ -14,95 +15,112 @@ function LandingPage({ voiceEnabled }) {
     if (voiceEnabled) {
       speakOnPageLoad(location.pathname, voiceEnabled);
     }
-  }, [voiceEnabled]);
+  }, [voiceEnabled, location.pathname]);
 
-  const buttons = [
+  const navigationCards = [
     {
       to: '/learn',
-      icon: '🚀',
-      label: 'Start Learning',
-      voice: 'Click to start learning amazing math symbols!',
-      color: 'blue'
+      icon: blueCrystal,
+      title: 'Mathematical Symbols',
+      description: 'Learn fundamental math symbols and their meanings',
+      voice: 'Click to start learning mathematical symbols',
     },
     {
       to: '/activities',
-      icon: '🌟',
-      label: 'Play Activities',
-      voice: 'Click to play fun space games!',
-      color: 'gold'
+      icon: greenCrystal,
+      title: 'Interactive Practice',
+      description: 'Practice with interactive exercises and activities',
+      voice: 'Click to access practice activities',
     },
     {
       to: '/progress',
-      icon: '📊',
-      label: 'My Progress',
-      voice: 'Click to see your space journey!',
-      color: 'pink'
+      icon: purpleCrystal,
+      title: 'Progress Tracking',
+      description: 'Monitor your learning journey and achievements',
+      voice: 'Click to view your progress',
     },
     {
       to: '/about',
-      icon: '👨‍👩‍👧',
-      label: 'About Us',
-      voice: 'Click to learn about this app!',
-      color: 'green'
+      icon: superCrystal,
+      title: 'About This Portal',
+      description: 'Learn more about our educational approach',
+      voice: 'Click to learn about this portal',
     }
   ];
 
-  const floatingSymbols = ['➕', '➖', '✖️', '➗', '=', '∑', 'π', '∞', '√', '²'];
-
   return (
     <div className="landing-page">
-      {/* Floating Planets */}
-      <img src={earth} alt="Earth" className="floating-planet earth" />
-      <img src={moon} alt="Moon" className="floating-planet moon" />
-      <img src={saturn} alt="Saturn" className="floating-planet saturn" />
-      <img src={rocket} alt="Rocket" className="floating-rocket" />
-
-      {/* Floating Math Symbols */}
-      {floatingSymbols.map((symbol, index) => (
-        <div
-          key={index}
-          className="floating-symbol"
-          style={{
-            left: `${10 + (index * 9)}%`,
-            top: `${20 + (index % 3) * 25}%`,
-            animationDelay: `${index * 0.5}s`
-          }}
-        >
-          {symbol}
-        </div>
-      ))}
-
-      {/* Main Content */}
-      <div className="landing-content">
-        <h1 className="main-title">
-          <span className="title-icon">🚀</span>
-          STAR MATH EXPLORER
-          <span className="title-icon">🌟</span>
-        </h1>
-        
-        <p className="main-subtitle">
-          A Space Adventure for Amazing Kids
-        </p>
-
-        <div className="buttons-grid">
-          {buttons.map((button, index) => (
-            <Link
-              key={index}
-              to={button.to}
-              className={`landing-button ${button.color}`}
-              onMouseEnter={() => voiceEnabled && speakOnHover(button.voice)}
-            >
-              <span className="button-icon">{button.icon}</span>
-              <span className="button-label">{button.label}</span>
-            </Link>
-          ))}
-        </div>
-
-        <div className="welcome-message">
-          <p className="message-text">
-            🌌 Welcome, Space Explorer! Your math adventure awaits! 🌌
+      <div className="landing-container">
+        {/* Header Section */}
+        <header className="landing-header">
+          <div className="logo-section">
+            <img src={rocketLogo} alt="Star Math Explorer Logo" className="main-logo" />
+          </div>
+          <h1 className="portal-title">Star Math Explorer</h1>
+          <p className="portal-subtitle">
+            An Educational Portal for Mathematical Symbol Learning
           </p>
-        </div>
+          <div className="portal-description">
+            <p>Designed specifically for children with autism spectrum disorder to learn mathematical concepts through structured, visual learning experiences.</p>
+          </div>
+        </header>
+
+        {/* Navigation Cards */}
+        <section className="navigation-section">
+          <h2 className="section-title">Learning Portal</h2>
+          <div className="nav-cards-grid">
+            {navigationCards.map((card, index) => (
+              <Link
+                key={index}
+                to={card.to}
+                className="nav-card"
+                onMouseEnter={() => voiceEnabled && speakOnHover(card.voice)}
+              >
+                <div className="card-icon-wrapper">
+                  <img src={card.icon} alt={card.title} className="card-icon" />
+                </div>
+                <h3 className="card-title">{card.title}</h3>
+                <p className="card-description">{card.description}</p>
+                <span className="card-arrow">→</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="features-section">
+          <h2 className="section-title">Portal Features</h2>
+          <div className="features-grid">
+            <div className="feature-item">
+              <div className="feature-number">01</div>
+              <h3>Visual Learning</h3>
+              <p>Color-coded symbols and structured layouts designed for visual processing strengths</p>
+            </div>
+            <div className="feature-item">
+              <div className="feature-number">02</div>
+              <h3>Audio Support</h3>
+              <p>Optional text-to-speech functionality for multi-sensory learning experiences</p>
+            </div>
+            <div className="feature-item">
+              <div className="feature-number">03</div>
+              <h3>Self-Paced</h3>
+              <p>Learn at your own comfortable pace without time pressures or constraints</p>
+            </div>
+            <div className="feature-item">
+              <div className="feature-number">04</div>
+              <h3>Progress Tracking</h3>
+              <p>Monitor learning journey with detailed analytics and achievement milestones</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Information Section */}
+        <footer className="landing-footer">
+          <p className="footer-text">
+            This portal is designed using evidence-based pedagogical strategies<br />
+            for children with autism spectrum disorder.
+          </p>
+        </footer>
       </div>
     </div>
   );

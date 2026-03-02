@@ -2,9 +2,23 @@
 
 let speechSynthesis = null;
 let currentUtterance = null;
+let voicesLoaded = false;
 
 if (typeof window !== 'undefined') {
   speechSynthesis = window.speechSynthesis;
+  
+  // Load voices - some browsers load asynchronously
+  if (speechSynthesis) {
+    speechSynthesis.getVoices();
+    
+    // Listen for voices to be loaded
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = () => {
+        voicesLoaded = true;
+        console.log('Voices loaded:', speechSynthesis.getVoices().length);
+      };
+    }
+  }
 }
 
 // Voice configuration - autism friendly
@@ -54,11 +68,17 @@ export const pageVoices = {
 
 // Speak text function
 export const speakText = (text, options = {}) => {
-  if (!speechSynthesis) return;
+  if (!speechSynthesis) {
+    console.warn('Speech synthesis not available');
+    return;
+  }
 
   // Cancel any ongoing speech
   stopSpeaking();
 
+  // Ensure voices are loaded
+  const voices = speechSynthesis.getVoices();
+  
   // Create utterance
   currentUtterance = new SpeechSynthesisUtterance(text);
   
@@ -68,20 +88,40 @@ export const speakText = (text, options = {}) => {
   currentUtterance.volume = options.volume || voiceConfig.volume;
   currentUtterance.lang = options.lang || voiceConfig.lang;
 
-  // Try to use a female voice if available
-  const voices = speechSynthesis.getVoices();
-  const femaleVoice = voices.find(voice => 
-    voice.name.includes('Female') || 
-    voice.name.includes('Google UK') ||
-    voice.name.includes('Samantha')
-  );
-  
-  if (femaleVoice) {
-    currentUtterance.voice = femaleVoice;
+  // Try to use a preferred voice if available
+  if (voices.length > 0) {
+    const preferredVoice = voices.find(voice => 
+      voice.lang.startsWith('en') && (
+        voice.name.includes('Female') || 
+        voice.name.includes('Google UK') ||
+        voice.name.includes('Samantha') ||
+        voice.name.includes('Microsoft Zira')
+      )
+    );
+    
+    if (preferredVoice) {
+      currentUtterance.voice = preferredVoice;
+    } else {
+      // Use any English voice
+      const englishVoice = voices.find(voice => voice.lang.startsWith('en'));
+      if (englishVoice) {
+        currentUtterance.voice = englishVoice;
+      }
+    }
   }
 
+  // Add event listeners for debugging
+  currentUtterance.onstart = () => console.log('Speech started');
+  currentUtterance.onend = () => console.log('Speech ended');
+  currentUtterance.onerror = (event) => console.error('Speech error:', event);
+
   // Speak
-  speechSynthesis.speak(currentUtterance);
+  try {
+    speechSynthesis.speak(currentUtterance);
+    console.log('Speaking:', text.substring(0, 50) + '...');
+  } catch (error) {
+    console.error('Error speaking:', error);
+  }
 };
 
 // Stop speaking

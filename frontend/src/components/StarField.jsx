@@ -3,12 +3,12 @@ import './StarField.css';
 
 function StarField() {
   useEffect(() => {
-    // Create stars dynamically
+    // Create static stars with minimal animation
     const starFieldContainer = document.querySelector('.star-field');
     if (!starFieldContainer) return;
 
-    // Create multiple layers of stars
-    for (let i = 0; i < 100; i++) {
+    // Create fewer, subtler stars
+    for (let i = 0; i < 50; i++) {
       const star = document.createElement('div');
       star.className = 'star';
       
@@ -16,14 +16,11 @@ function StarField() {
       star.style.left = `${Math.random() * 100}%`;
       star.style.top = `${Math.random() * 100}%`;
       
-      // Random size
-      const size = Math.random() * 3 + 1;
+      // Smaller, more subtle stars
+      const size = Math.random() * 2 + 0.5;
       star.style.width = `${size}px`;
       star.style.height = `${size}px`;
-      
-      // Random animation delay
-      star.style.animationDelay = `${Math.random() * 3}s`;
-      star.style.animationDuration = `${Math.random() * 2 + 2}s`;
+      star.style.opacity = Math.random() * 0.4 + 0.3;
       
       starFieldContainer.appendChild(star);
     }

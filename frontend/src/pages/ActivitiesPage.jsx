@@ -4,9 +4,19 @@ import { speakOnPageLoad, speakText } from '../utils/voiceService';
 import { getAllSymbols } from '../data/symbolsData';
 import './ActivitiesPage.css';
 
+// Import educational assets
+import chefKid from '../assets/chef_kid.png';
+import huskyPlaying from '../assets/huskey_playing_with_ball.png';
+import jokerLooking from '../assets/joker_seeing_up.png';
+import manDancing from '../assets/man_dancing.png';
+import guitarPerson from '../assets/person_playing_guitar.png';
+import greenCrystal from '../assets/green_crystal.png';
+import purpleCrystal from '../assets/purple crystal.png';
+import blueCrystal from '../assets/blue_crystal.png';
+
 function ActivitiesPage({ voiceEnabled }) {
   const location = useLocation();
-  const [currentGame, setCurrentGame] = useState('quiz');
+  const [currentGame, setCurrentGame] = useState(null);
   const [score, setScore] = useState(0);
   const [question, setQuestion] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -52,15 +62,15 @@ function ActivitiesPage({ voiceEnabled }) {
   const handleQuizAnswer = (answer) => {
     setSelectedAnswer(answer);
     if (answer.symbol === question.correctSymbol.symbol) {
-      setFeedback('🎉 Excellent! You got it right!');
+      setFeedback('Correct! Well done.');
       setScore(score + 10);
       if (voiceEnabled) {
-        speakText('Excellent! You got it right!');
+        speakText('Correct! Well done.');
       }
     } else {
-      setFeedback(`❌ Not quite! That's ${answer.name}. The correct answer is ${question.correctSymbol.name}`);
+      setFeedback(`Incorrect. That is ${answer.name}. The correct answer is ${question.correctSymbol.name}`);
       if (voiceEnabled) {
-        speakText(`Not quite! The correct answer is ${question.correctSymbol.name}`);
+        speakText(`Incorrect. The correct answer is ${question.correctSymbol.name}`);
       }
     }
 
@@ -104,7 +114,7 @@ function ActivitiesPage({ voiceEnabled }) {
         setScore(score + 20);
         setFlippedCards([]);
         if (voiceEnabled) {
-          speakText('Great match!');
+          speakText('Match found!');
         }
       } else {
         setTimeout(() => {
@@ -138,7 +148,7 @@ function ActivitiesPage({ voiceEnabled }) {
       setSelectedSymbol(null);
       setSelectedDescription(null);
       if (voiceEnabled) {
-        speakText('Perfect match!');
+        speakText('Correct match!');
       }
     }
   };
@@ -152,171 +162,210 @@ function ActivitiesPage({ voiceEnabled }) {
       setSelectedSymbol(null);
       setSelectedDescription(null);
       if (voiceEnabled) {
-        speakText('Perfect match!');
+        speakText('Correct match!');
       }
     }
   };
 
-  const GameSelector = () => (
-    <div className="game-selector">
-      <h2>Choose a Space Game! 🎮</h2>
-      <div className="games-grid">
-        <div className="game-card" onClick={() => handleStartGame('quiz')}>
-          <div className="game-icon">❓</div>
-          <h3>Symbol Quiz</h3>
-          <p>Test your knowledge!</p>
+  const activities = [
+    {
+      id: 'quiz',
+      title: 'Symbol Quiz',
+      description: 'Test your knowledge by identifying mathematical symbols',
+      image: chefKid,
+      difficulty: 'Beginner'
+    },
+    {
+      id: 'memory',
+      title: 'Memory Match',
+      description: 'Match pairs of symbols to strengthen recall',
+      image: huskyPlaying,
+      difficulty: 'Intermediate'
+    },
+    {
+      id: 'match',
+      title: 'Symbol Matching',
+      description: 'Connect symbols with their correct descriptions',
+      image: guitarPerson,
+      difficulty: 'Intermediate'
+    }
+  ];
+
+  if (!gameStarted) {
+    return (
+      <div className="activities-page">
+        <div className="activities-header">
+          <h1 className="page-title">Interactive Learning Activities</h1>
+          <p className="page-description">
+            Strengthen your understanding through educational exercises
+          </p>
         </div>
-        <div className="game-card" onClick={() => handleStartGame('memory')}>
-          <div className="game-icon">🧠</div>
-          <h3>Memory Match</h3>
-          <p>Find matching pairs!</p>
+
+        <div className="activities-grid">
+          {activities.map((activity) => (
+            <div key={activity.id} className="activity-card">
+              <div className="activity-image-container">
+                <img src={activity.image} alt={activity.title} className="activity-image" />
+              </div>
+              <div className="activity-content">
+                <h3 className="activity-title">{activity.title}</h3>
+                <p className="activity-description">{activity.description}</p>
+                <div className="activity-meta">
+                  <span className="difficulty-badge">{activity.difficulty}</span>
+                </div>
+                <button
+                  className="start-activity-btn"
+                  onClick={() => handleStartGame(activity.id)}
+                >
+                  Start Activity
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="game-card" onClick={() => handleStartGame('match')}>
-          <div className="game-icon">🔗</div>
-          <h3>Match Game</h3>
-          <p>Match symbols to descriptions!</p>
+
+        <div className="encouragement-section">
+          <img src={manDancing} alt="Encouragement" className="encouragement-image" />
+          <p className="encouragement-text">
+            Practice makes perfect! Regular activities improve learning retention.
+          </p>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 
-  return (
-    <div className="activities-page">
-      <div className="activities-header">
-        <h1 className="page-title">
-          <span className="title-icon">🎮</span>
-          Space Activities
-          <span className="title-icon">⭐</span>
-        </h1>
-        <div className="score-display">
-          <span className="score-label">Score:</span>
-          <span className="score-value">{score}</span>
-          <span className="score-icon">🏆</span>
-        </div>
-      </div>
-
-      {!gameStarted ? (
-        <GameSelector />
-      ) : (
-        <div className="game-container">
-          <button className="btn-back" onClick={() => setGameStarted(false)}>
-            ← Back to Games
+  // Game screens
+  if (currentGame === 'quiz' && question) {
+    return (
+      <div className="activities-page game-active">
+        <div className="game-header">
+          <h2 className="game-title">Symbol Quiz</h2>
+          <div className="game-score">
+            <img src={greenCrystal} alt="Score" className="score-icon" />
+            <span>Score: {score}</span>
+          </div>
+          <button className="back-btn" onClick={() => setGameStarted(false)}>
+            Return to Activities
           </button>
+        </div>
 
-          {currentGame === 'quiz' && question && (
-            <div className="quiz-game">
-              <div className="question-box">
-                <h2>What is this symbol?</h2>
-                <div className="question-symbol">{question.correctSymbol.symbol}</div>
-              </div>
-              <div className="options-grid">
-                {question.options.map((option, index) => (
-                  <button
-                    key={index}
-                    className={`option-button ${
-                      selectedAnswer?.symbol === option.symbol
-                        ? option.symbol === question.correctSymbol.symbol
-                          ? 'correct'
-                          : 'incorrect'
-                        : ''
-                    }`}
-                    onClick={() => !selectedAnswer && handleQuizAnswer(option)}
-                    disabled={selectedAnswer !== null}
-                  >
-                    {option.name}
-                  </button>
-                ))}
-              </div>
-              {feedback && (
-                <div className={`feedback ${feedback.includes('❌') ? 'wrong' : 'right'}`}>
-                  {feedback}
-                </div>
-              )}
-            </div>
-          )}
+        <div className="quiz-container">
+          <div className="question-section">
+            <h3 className="question-text">Identify this symbol:</h3>
+            <div className="symbol-display">{question.correctSymbol.symbol}</div>
+          </div>
 
-          {currentGame === 'memory' && (
-            <div className="memory-game">
-              <h2>Find Matching Pairs! 🧠</h2>
-              <div className="memory-grid">
-                {memoryCards.map((card) => (
-                  <div
-                    key={card.id}
-                    className={`memory-card ${
-                      flippedCards.includes(card.id) || matchedCards.includes(card.symbol)
-                        ? 'flipped'
-                        : ''
-                    }`}
-                    onClick={() => handleMemoryCardClick(card)}
-                  >
-                    <div className="card-front">?</div>
-                    <div className="card-back" style={{ color: card.color }}>
-                      {card.symbol}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {matchedCards.length === 6 && (
-                <div className="game-complete">
-                  🎉 Congratulations! You matched all pairs! 🎉
-                  <button className="btn-play-again" onClick={() => initializeMemoryGame()}>
-                    Play Again
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+          <div className="options-grid">
+            {question.options.map((option, index) => (
+              <button
+                key={index}
+                className={`option-btn ${selectedAnswer === option ? 'selected' : ''}`}
+                onClick={() => handleQuizAnswer(option)}
+                disabled={selectedAnswer !== null}
+              >
+                {option.name}
+              </button>
+            ))}
+          </div>
 
-          {currentGame === 'match' && (
-            <div className="match-game">
-              <h2>Match Symbols with Descriptions! 🔗</h2>
-              <div className="match-container">
-                <div className="match-column">
-                  <h3>Symbols</h3>
-                  {matchPairs.map((symbol, index) => (
-                    <button
-                      key={index}
-                      className={`match-button ${
-                        selectedSymbol?.symbol === symbol.symbol ? 'selected' : ''
-                      } ${matchedPairs.includes(symbol.symbol) ? 'matched' : ''}`}
-                      onClick={() => handleSymbolClick(symbol)}
-                      disabled={matchedPairs.includes(symbol.symbol)}
-                      style={{ color: symbol.color }}
-                    >
-                      {symbol.symbol} - {symbol.name}
-                    </button>
-                  ))}
-                </div>
-                <div className="match-column">
-                  <h3>Descriptions</h3>
-                  {matchPairs.map((symbol, index) => (
-                    <button
-                      key={index}
-                      className={`match-button ${
-                        selectedDescription?.symbol === symbol.symbol ? 'selected' : ''
-                      } ${matchedPairs.includes(symbol.symbol) ? 'matched' : ''}`}
-                      onClick={() => handleDescriptionClick(symbol)}
-                      disabled={matchedPairs.includes(symbol.symbol)}
-                    >
-                      {symbol.description}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              {matchedPairs.length === matchPairs.length && (
-                <div className="game-complete">
-                  🎉 Amazing! You matched all pairs! 🎉
-                  <button className="btn-play-again" onClick={() => initializeMatchGame()}>
-                    Play Again
-                  </button>
-                </div>
-              )}
+          {feedback && (
+            <div className={`feedback-message ${feedback.includes('Correct') ? 'correct' : 'incorrect'}`}>
+              {feedback}
             </div>
           )}
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
+
+  if (currentGame === 'memory') {
+    return (
+      <div className="activities-page game-active">
+        <div className="game-header">
+          <h2 className="game-title">Memory Match</h2>
+          <div className="game-score">
+            <img src={purpleCrystal} alt="Score" className="score-icon" />
+            <span>Score: {score}</span>
+          </div>
+          <button className="back-btn" onClick={() => setGameStarted(false)}>
+            Return to Activities
+          </button>
+        </div>
+
+        <div className="memory-grid">
+          {memoryCards.map((card) => (
+            <div
+              key={card.id}
+              className={`memory-card ${
+                flippedCards.includes(card.id) || matchedCards.includes(card.symbol)
+                  ? 'flipped'
+                  : ''
+              }`}
+              onClick={() => handleMemoryCardClick(card)}
+            >
+              <div className="card-front">?</div>
+              <div className="card-back">
+                <span className="card-symbol">{card.symbol}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (currentGame === 'match') {
+    return (
+      <div className="activities-page game-active">
+        <div className="game-header">
+          <h2 className="game-title">Symbol Matching</h2>
+          <div className="game-score">
+            <img src={blueCrystal} alt="Score" className="score-icon" />
+            <span>Score: {score}</span>
+          </div>
+          <button className="back-btn" onClick={() => setGameStarted(false)}>
+            Return to Activities
+          </button>
+        </div>
+
+        <div className="match-container">
+          <div className="match-column">
+            <h3>Symbols</h3>
+            {matchPairs.map((pair, index) => (
+              <button
+                key={index}
+                className={`match-item ${
+                  selectedSymbol === pair ? 'selected' : ''
+                } ${matchedPairs.includes(pair.symbol) ? 'matched' : ''}`}
+                onClick={() => handleSymbolClick(pair)}
+                disabled={matchedPairs.includes(pair.symbol)}
+              >
+                <span className="match-symbol">{pair.symbol}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="match-column">
+            <h3>Descriptions</h3>
+            {matchPairs.map((pair, index) => (
+              <button
+                key={index}
+                className={`match-item ${
+                  selectedDescription === pair ? 'selected' : ''
+                } ${matchedPairs.includes(pair.symbol) ? 'matched' : ''}`}
+                onClick={() => handleDescriptionClick(pair)}
+                disabled={matchedPairs.includes(pair.symbol)}
+              >
+                {pair.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
 }
 
 export default ActivitiesPage;

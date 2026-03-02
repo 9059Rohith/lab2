@@ -14,34 +14,28 @@ function AboutPage({ voiceEnabled }) {
 
   const features = [
     {
-      icon: '🎨',
       title: 'Visual Learning',
-      description: 'Colorful symbols and space-themed design make learning fun and engaging!'
+      description: 'Colorful symbols and structured design make learning effective and engaging.'
     },
     {
-      icon: '🔊',
       title: 'Audio Support',
-      description: 'Hear every symbol pronounced clearly to support multi-sensory learning!'
+      description: 'Clear pronunciation for every symbol supports multi-sensory learning.'
     },
     {
-      icon: '🎮',
-      title: 'Interactive Games',
-      description: 'Play exciting games to practice and reinforce what you learn!'
+      title: 'Interactive Activities',
+      description: 'Educational exercises reinforce learning through practice.'
     },
     {
-      icon: '📊',
       title: 'Progress Tracking',
-      description: 'Watch your progress grow as you learn more symbols!'
+      description: 'Monitor learning progress and symbol mastery over time.'
     },
     {
-      icon: '🌟',
-      title: 'Rewards & Achievements',
-      description: 'Earn badges and celebrate your learning milestones!'
+      title: 'Achievement System',
+      description: 'Earn recognition and celebrate learning milestones.'
     },
     {
-      icon: '👨‍👩‍👧',
-      title: 'Parent-Friendly',
-      description: 'Safe, ad-free environment designed specifically for kids!'
+      title: 'Safe Environment',
+      description: 'Ad-free, secure platform designed specifically for educational use.'
     }
   ];
 
@@ -73,30 +67,24 @@ function AboutPage({ voiceEnabled }) {
   return (
     <div className="about-page">
       <div className="about-header">
-        <h1 className="page-title">
-          <span className="title-icon">ℹ️</span>
-          About Star Math Explorer
-          <span className="title-icon">🌟</span>
-        </h1>
+        <h1 className="page-title">About Star Math Explorer</h1>
         <p className="page-subtitle">
-          A Space Adventure for Learning Math Symbols
+          Educational Platform for Mathematical Symbol Learning
         </p>
       </div>
 
       {/* Mission Statement */}
       <div className="about-section">
         <div className="card mission-card">
-          <h2>Our Mission 🚀</h2>
+          <h2>Mission Statement</h2>
           <p className="mission-text">
             Star Math Explorer is designed specifically for children with Autism Spectrum Disorder (ASD) 
-            to make learning math symbols fun, engaging, and accessible. We believe every child deserves 
-            the opportunity to explore the wonderful world of mathematics at their own pace, in a safe and 
-            supportive environment.
+            to make learning math symbols accessible and effective. We provide structured learning 
+            opportunities in a safe, supportive environment that accommodates individual pacing and learning styles.
           </p>
           <p className="mission-text">
-            Through space-themed adventures, interactive games, and visual learning, we help children 
-            build confidence, master essential math concepts, and develop a love for learning that will 
-            last a lifetime.
+            Through evidence-based educational approaches, visual learning, and interactive activities, 
+            we support children in building mathematical literacy and developing confidence in their abilities.
           </p>
         </div>
       </div>

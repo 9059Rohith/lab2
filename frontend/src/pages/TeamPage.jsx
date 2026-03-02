@@ -40,22 +40,18 @@ function TeamPage({ voiceEnabled }) {
 
   const specialThanks = [
     {
-      icon: '👨‍👩‍👧‍👦',
       title: 'Parents & Families',
-      description: 'For their valuable feedback and support in making this application truly helpful'
+      description: 'For valuable feedback and support in developing this application'
     },
     {
-      icon: '👩‍🏫',
       title: 'Special Education Teachers',
-      description: 'For sharing their expertise and insights in autism education'
+      description: 'For sharing expertise and insights in autism education'
     },
     {
-      icon: '🧒',
       title: 'Young Learners',
-      description: 'For inspiring us with their curiosity and love for learning'
+      description: 'For inspiring the development of accessible educational tools'
     },
     {
-      icon: '🔬',
       title: 'Research Community',
       description: 'For providing evidence-based practices in autism education'
     }
@@ -64,13 +60,9 @@ function TeamPage({ voiceEnabled }) {
   return (
     <div className="team-page">
       <div className="team-header">
-        <h1 className="page-title">
-          <span className="title-icon">👥</span>
-          Meet the Team
-          <span className="title-icon">✨</span>
-        </h1>
+        <h1 className="page-title">Project Team</h1>
         <p className="page-subtitle">
-          The people behind Star Math Explorer
+          Development and Academic Information
         </p>
       </div>
 

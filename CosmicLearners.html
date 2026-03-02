@@ -1,0 +1,2273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CosmicLearners - Space Learning for Every Star</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-navy: #060917;
+            --navy: #0a0e2e;
+            --indigo: #1a1f5e;
+            --indigo-mid: #252b7a;
+            --violet: #6b5fa6;
+            --violet-soft: #9b8fd4;
+            --teal: #3dd6c8;
+            --teal-soft: #7eeee6;
+            --pink-soft: #e48fd4;
+            --yellow-star: #ffd97d;
+            --white-soft: #e8eeff;
+            --text-dim: #9ba8d4;
+            --anim-speed: 1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--deep-navy);
+            color: var(--white-soft);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            transition: filter 0.3s ease;
+        }
+
+        body.simplified-mode .star { opacity: 0.05 !important; }
+        body.simplified-mode .planet { animation-play-state: paused !important; }
+        body.simplified-mode .nebula { animation-play-state: paused !important; }
+        body.simplified-mode .constellation { opacity: 0 !important; }
+
+        /* COSMIC BACKGROUND */
+        #cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        #stars-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--white-soft);
+            border-radius: 50%;
+            animation: twinkle ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            animation: planet-float calc(15s * var(--anim-speed)) ease-in-out infinite;
+        }
+
+        #planet1 {
+            width: 80px;
+            height: 80px;
+            top: 15%;
+            right: 10%;
+            background: url('frontend/src/assets/saturn.png') center/cover;
+            box-shadow: 0 0 30px rgba(107, 95, 166, 0.4);
+        }
+
+        #planet2 {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            left: 5%;
+            background: url('frontend/src/assets/uranus.png') center/cover;
+            box-shadow: 0 0 25px rgba(61, 214, 200, 0.3);
+        }
+
+        #planet3 {
+            width: 70px;
+            height: 70px;
+            top: 40%;
+            right: 5%;
+            background: url('frontend/src/assets/earth.png') center/cover;
+            box-shadow: 0 0 28px rgba(155, 143, 212, 0.35);
+        }
+
+        @keyframes planet-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+        }
+
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: nebula-drift calc(20s * var(--anim-speed)) ease-in-out infinite alternate;
+        }
+
+        #nebula1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: -100px;
+            background: radial-gradient(circle, var(--violet), transparent);
+        }
+
+        #nebula2 {
+            width: 350px;
+            height: 350px;
+            bottom: 10%;
+            right: -120px;
+            background: radial-gradient(circle, var(--teal), transparent);
+        }
+
+        @keyframes nebula-drift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20px, 30px) scale(1.1); }
+        }
+
+        .constellation {
+            position: absolute;
+            opacity: 0.08;
+            animation: constellation-glow calc(6s * var(--anim-speed)) ease-in-out infinite;
+        }
+
+        @keyframes constellation-glow {
+            0%, 100% { opacity: 0.08; }
+            50% { opacity: 0.2; }
+        }
+
+        /* MAIN CONTAINER */
+        #app {
+            position: relative;
+            z-index: 1;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            animation: screenIn calc(0.4s * var(--anim-speed)) ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes screenIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(16px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* HEADER */
+        .screen-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(107, 95, 166, 0.2);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(155, 143, 212, 0.3);
+            color: var(--white-soft);
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:active {
+            transform: scale(0.92);
+            background: rgba(107, 95, 166, 0.4);
+        }
+
+        .screen-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 24px;
+            background: linear-gradient(135deg, var(--violet-soft), var(--teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            flex: 1;
+        }
+
+        /* LOGO */
+        .app-logo {
+            width: 120px;
+            height: 120px;
+            margin: 40px auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            background: linear-gradient(135deg, var(--indigo), var(--indigo-mid));
+            border: 3px solid var(--violet);
+            animation: logo-pulse calc(3s * var(--anim-speed)) ease-in-out infinite;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--teal);
+        }
+
+        .app-logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        @keyframes logo-pulse {
+            0%, 100% { 
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--teal);
+            }
+            50% { 
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 35px var(--teal);
+            }
+        }
+
+        .app-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 32px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--violet-soft), var(--teal), var(--pink-soft));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .app-subtitle {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 15px;
+            margin-bottom: 32px;
+            letter-spacing: 1px;
+        }
+
+        /* CARDS */
+        .card {
+            background: rgba(26, 31, 94, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(107, 95, 166, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        .greeting-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: linear-gradient(135deg, rgba(26, 31, 94, 0.6), rgba(37, 43, 122, 0.4));
+            border: 2px solid var(--teal);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 16px rgba(61, 214, 200, 0.2);
+        }
+
+        .avatar-ring {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--teal-soft));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 0 16px rgba(61, 214, 200, 0.4);
+        }
+
+        .greeting-text h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--teal-soft);
+            margin-bottom: 4px;
+        }
+
+        .greeting-text p {
+            font-size: 13px;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .star-badge {
+            background: var(--yellow-star);
+            color: var(--navy);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        /* SECTION TITLES */
+        .section-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 18px;
+            color: var(--violet-soft);
+            margin: 28px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ROUTINE STRIP */
+        .routine-strip {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 0 12px;
+            scrollbar-width: none;
+        }
+
+        .routine-strip::-webkit-scrollbar {
+            display: none;
+        }
+
+        .routine-item {
+            min-width: 70px;
+            height: 80px;
+            background: rgba(37, 43, 122, 0.4);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(107, 95, 166, 0.3);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .routine-item.done {
+            border-color: var(--teal);
+            box-shadow: 0 0 16px rgba(61, 214, 200, 0.4);
+            background: rgba(61, 214, 200, 0.1);
+        }
+
+        .routine-item.done::after {
+            content: '✓';
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 18px;
+            height: 18px;
+            background: var(--teal);
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--navy);
+            font-weight: 800;
+        }
+
+        .routine-item span:first-child {
+            font-size: 28px;
+        }
+
+        .routine-item span:last-child {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* MODULE GRID */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .module-card {
+            background: linear-gradient(135deg, rgba(26, 31, 94, 0.6), rgba(37, 43, 122, 0.4));
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(107, 95, 166, 0.3);
+            border-radius: 20px;
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:active {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .module-card.accent-violet {
+            border-color: var(--violet);
+            box-shadow: 0 8px 20px rgba(107, 95, 166, 0.2);
+        }
+
+        .module-card.accent-teal {
+            border-color: var(--teal);
+            box-shadow: 0 8px 20px rgba(61, 214, 200, 0.2);
+        }
+
+        .module-card.accent-pink {
+            border-color: var(--pink-soft);
+            box-shadow: 0 8px 20px rgba(228, 143, 212, 0.2);
+        }
+
+        .module-card.accent-yellow {
+            border-color: var(--yellow-star);
+            box-shadow: 0 8px 20px rgba(255, 217, 125, 0.2);
+        }
+
+        .module-card:active.accent-violet {
+            box-shadow: 0 12px 30px rgba(107, 95, 166, 0.4), 0 0 20px var(--violet);
+        }
+
+        .module-card:active.accent-teal {
+            box-shadow: 0 12px 30px rgba(61, 214, 200, 0.4), 0 0 20px var(--teal);
+        }
+
+        .module-card:active.accent-pink {
+            box-shadow: 0 12px 30px rgba(228, 143, 212, 0.4), 0 0 20px var(--pink-soft);
+        }
+
+        .module-card:active.accent-yellow {
+            box-shadow: 0 12px 30px rgba(255, 217, 125, 0.4), 0 0 20px var(--yellow-star);
+        }
+
+        .module-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .module-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--white-soft);
+            margin-bottom: 12px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--teal), var(--teal-soft));
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        /* BUTTONS */
+        .btn {
+            min-height: 50px;
+            padding: 0 28px;
+            border-radius: 24px;
+            border: none;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--teal), var(--teal-soft));
+            color: var(--navy);
+            box-shadow: 0 6px 20px rgba(61, 214, 200, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 12px rgba(61, 214, 200, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(107, 95, 166, 0.3);
+            color: var(--white-soft);
+            border: 2px solid var(--violet);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.96);
+            background: rgba(107, 95, 166, 0.5);
+        }
+
+        /* ANSWER GRID */
+        .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .answer-btn {
+            min-height: 80px;
+            background: rgba(26, 31, 94, 0.5);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(107, 95, 166, 0.3);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--white-soft);
+        }
+
+        .answer-btn span:first-child {
+            font-size: 36px;
+        }
+
+        .answer-btn:active {
+            transform: scale(0.96);
+        }
+
+        .answer-btn.correct {
+            border-color: var(--teal);
+            background: rgba(61, 214, 200, 0.15);
+            box-shadow: 0 0 20px rgba(61, 214, 200, 0.4);
+        }
+
+        .answer-btn.wrong {
+            border-color: #ff4466;
+            background: rgba(255, 68, 102, 0.1);
+        }
+
+        /* SYMBOL STAGE */
+        .symbol-stage {
+            background: linear-gradient(135deg, rgba(37, 43, 122, 0.5), rgba(26, 31, 94, 0.5));
+            backdrop-filter: blur(12px);
+            border: 3px solid var(--violet);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .symbol-display {
+            font-size: 80px;
+            margin: 20px 0;
+            animation: symbol-bounce calc(2s * var(--anim-speed)) ease-in-out infinite;
+        }
+
+        @keyframes symbol-bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        .symbol-prompt {
+            font-family: 'Fredoka One', cursive;
+            font-size: 20px;
+            color: var(--teal-soft);
+            margin-bottom: 8px;
+        }
+
+        .symbol-subtext {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        /* SCORE BAR */
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: rgba(26, 31, 94, 0.4);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(107, 95, 166, 0.3);
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .score-item span:first-child {
+            font-size: 18px;
+        }
+
+        /* EMOTION GRID */
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .emotion-card {
+            background: rgba(26, 31, 94, 0.5);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(107, 95, 166, 0.3);
+            border-radius: 16px;
+            padding: 16px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .emotion-card:active {
+            transform: scale(0.96);
+        }
+
+        .emotion-card.selected {
+            border-color: var(--yellow-star);
+            box-shadow: 0 0 20px rgba(255, 217, 125, 0.4);
+            background: rgba(255, 217, 125, 0.1);
+        }
+
+        .emotion-card span:first-child {
+            font-size: 42px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .emotion-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--white-soft);
+        }
+
+        /* EMOTION DETAIL */
+        .emotion-detail {
+            display: none;
+            background: linear-gradient(135deg, rgba(37, 43, 122, 0.6), rgba(26, 31, 94, 0.5));
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--yellow-star);
+            border-radius: 20px;
+            padding: 24px;
+            margin-top: 20px;
+            text-align: center;
+            animation: screenIn calc(0.4s * var(--anim-speed)) ease-out;
+        }
+
+        .emotion-detail.active {
+            display: block;
+        }
+
+        .emotion-detail .emotion-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .emotion-detail h3 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 24px;
+            color: var(--yellow-star);
+            margin-bottom: 16px;
+        }
+
+        .emotion-detail p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--white-soft);
+            margin-bottom: 20px;
+        }
+
+        /* COMMUNICATION BOARD */
+        .sentence-strip {
+            min-height: 70px;
+            background: rgba(26, 31, 94, 0.3);
+            border: 2px dashed var(--teal);
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .sentence-strip.empty::after {
+            content: 'Tap symbols to build your sentence...';
+            color: var(--text-dim);
+            font-size: 13px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .word-chip {
+            background: linear-gradient(135deg, var(--teal), var(--teal-soft));
+            color: var(--navy);
+            padding: 8px 14px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            animation: chipIn calc(0.3s * var(--anim-speed)) cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes chipIn {
+            from { 
+                transform: scale(0.7); 
+                opacity: 0; 
+            }
+            to { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+        }
+
+        .word-chip:active {
+            transform: scale(0.9);
+        }
+
+        .category-section {
+            margin-bottom: 24px;
+        }
+
+        .category-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--teal-soft);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .symbol-btn {
+            background: rgba(26, 31, 94, 0.5);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(107, 95, 166, 0.3);
+            border-radius: 14px;
+            padding: 12px 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .symbol-btn:active {
+            transform: scale(0.9);
+            border-color: var(--teal);
+        }
+
+        .symbol-btn span:first-child {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .symbol-btn span:last-child {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-dim);
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action-row .btn {
+            flex: 1;
+        }
+
+        /* MEMORY CARDS */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: rgba(26, 31, 94, 0.6);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(107, 95, 166, 0.3);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .memory-card:active {
+            transform: scale(0.95);
+        }
+
+        .memory-card.flipped {
+            border-color: var(--violet);
+        }
+
+        .memory-card.matched {
+            border-color: var(--teal);
+            background: rgba(61, 214, 200, 0.15);
+            box-shadow: 0 0 20px rgba(61, 214, 200, 0.4);
+            animation: match-pop calc(0.5s * var(--anim-speed)) ease-out;
+        }
+
+        @keyframes match-pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .memory-card .card-back {
+            font-size: 28px;
+        }
+
+        /* ROUTINE BUILDER */
+        .sequence-zone {
+            background: rgba(26, 31, 94, 0.3);
+            border: 2px solid var(--violet);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 140px;
+        }
+
+        .sequence-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 16px;
+            color: var(--violet-soft);
+            margin-bottom: 16px;
+        }
+
+        .sequence-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .sequence-list.empty::after {
+            content: 'Tap activities below to build your daily routine';
+            color: var(--text-dim);
+            font-size: 13px;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .sequence-item {
+            background: linear-gradient(135deg, var(--violet), var(--violet-soft));
+            color: var(--white-soft);
+            padding: 10px 16px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            position: relative;
+            animation: chipIn calc(0.3s * var(--anim-speed)) cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .sequence-item:active {
+            transform: scale(0.9);
+        }
+
+        .sequence-number {
+            background: rgba(255, 255, 255, 0.3);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        /* ACTIVITY BANK */
+        .activity-bank {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .activity-card {
+            background: rgba(26, 31, 94, 0.5);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(107, 95, 166, 0.3);
+            border-radius: 14px;
+            padding: 12px 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .activity-card:active {
+            transform: scale(0.9);
+            border-color: var(--violet);
+        }
+
+        .activity-card.added {
+            opacity: 0.4;
+        }
+
+        .activity-card span:first-child {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .activity-card span:last-child {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-dim);
+        }
+
+        /* PROGRESS SCREEN */
+        .progress-ring-card {
+            background: linear-gradient(135deg, rgba(37, 43, 122, 0.6), rgba(26, 31, 94, 0.5));
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--teal);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .progress-ring {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: conic-gradient(var(--teal) 0% 72%, rgba(107, 95, 166, 0.2) 72% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .progress-ring::before {
+            content: '';
+            width: 120px;
+            height: 120px;
+            background: var(--indigo);
+            border-radius: 50%;
+        }
+
+        .progress-value {
+            position: absolute;
+            font-family: 'Fredoka One', cursive;
+            font-size: 36px;
+            color: var(--teal-soft);
+        }
+
+        .progress-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--violet-soft);
+            margin-bottom: 12px;
+        }
+
+        .progress-stars {
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+
+        /* ACHIEVEMENTS */
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .achievement-chip {
+            background: rgba(26, 31, 94, 0.5);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(107, 95, 166, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .achievement-chip.unlocked {
+            border-color: var(--yellow-star);
+            box-shadow: 0 0 16px rgba(255, 217, 125, 0.3);
+        }
+
+        .achievement-chip.locked {
+            opacity: 0.4;
+        }
+
+        .achievement-chip span:first-child {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .achievement-chip span:last-child {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--white-soft);
+        }
+
+        /* SETTINGS */
+        .settings-card {
+            background: rgba(26, 31, 94, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(107, 95, 166, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .settings-card h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--violet-soft);
+            margin-bottom: 16px;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(107, 95, 166, 0.2);
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white-soft);
+        }
+
+        /* TOGGLE */
+        .toggle {
+            width: 52px;
+            height: 28px;
+            background: rgba(107, 95, 166, 0.3);
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle.on {
+            background: var(--teal);
+        }
+
+        .toggle::before {
+            content: '';
+            width: 24px;
+            height: 24px;
+            background: var(--white-soft);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle.on::before {
+            left: 26px;
+        }
+
+        /* SLIDER */
+        .slider {
+            width: 140px;
+            height: 6px;
+            background: rgba(107, 95, 166, 0.3);
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .slider input {
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .slider::before {
+            content: '';
+            position: absolute;
+            height: 100%;
+            background: var(--teal);
+            border-radius: 3px;
+            pointer-events: none;
+        }
+
+        /* BOTTOM NAV */
+        #bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            height: 70px;
+            background: rgba(10, 14, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(107, 95, 166, 0.3);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-tab {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px;
+            color: var(--text-dim);
+        }
+
+        .nav-tab.active {
+            color: var(--teal);
+        }
+
+        .nav-tab.active .nav-icon {
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 8px var(--teal));
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* REWARD OVERLAY */
+        #reward-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 9, 23, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #reward-overlay.active {
+            display: flex;
+        }
+
+        .reward-card {
+            background: linear-gradient(135deg, var(--indigo), var(--indigo-mid));
+            border: 3px solid var(--teal);
+            border-radius: 28px;
+            padding: 40px 32px;
+            text-align: center;
+            max-width: 320px;
+            box-shadow: 0 0 60px rgba(61, 214, 200, 0.3);
+            animation: reward-pop calc(0.5s * var(--anim-speed)) cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes reward-pop {
+            from { 
+                transform: scale(0.5); 
+                opacity: 0; 
+            }
+            to { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+        }
+
+        .reward-stars {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            font-size: 48px;
+        }
+
+        .reward-stars span {
+            animation: star-fall calc(0.6s * var(--anim-speed)) ease-out;
+        }
+
+        .reward-stars span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .reward-stars span:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .reward-stars span:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes star-fall {
+            from { 
+                transform: translateY(-30px) scale(0); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateY(0) scale(1); 
+                opacity: 1; 
+            }
+        }
+
+        .reward-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--teal-soft), var(--violet-soft), var(--pink-soft));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+        }
+
+        .reward-message {
+            font-size: 15px;
+            color: var(--white-soft);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        /* FLOATING STAR */
+        .floating-star {
+            position: fixed;
+            font-size: 32px;
+            pointer-events: none;
+            z-index: 150;
+            animation: float-up calc(1.2s * var(--anim-speed)) ease-out forwards;
+        }
+
+        @keyframes float-up {
+            0% { 
+                transform: translateY(0) scale(1); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateY(-120px) scale(1.5); 
+                opacity: 0; 
+            }
+        }
+
+        /* INFO CARD */
+        .info-card {
+            background: linear-gradient(135deg, rgba(61, 214, 200, 0.1), rgba(107, 95, 166, 0.1));
+            border: 1px solid rgba(61, 214, 200, 0.3);
+            border-left: 4px solid var(--teal);
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--white-soft);
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, rgba(107, 95, 166, 0.15), rgba(61, 214, 200, 0.1));
+            border: 1px solid rgba(107, 95, 166, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+
+        /* UTILITY */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 8px; }
+        .mt-2 { margin-top: 16px; }
+        .mb-2 { margin-bottom: 16px; }
+        .full-width { width: 100%; }
+
+        /* RESPONSIVE */
+        @media (max-width: 360px) {
+            .module-grid {
+                gap: 10px;
+            }
+            .module-card {
+                padding: 16px 12px;
+            }
+            .module-icon {
+                font-size: 40px;
+            }
+            .module-label {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- COSMIC BACKGROUND -->
+    <div id="cosmic-bg">
+        <div id="stars-container"></div>
+        <div class="planet" id="planet1"></div>
+        <div class="planet" id="planet2"></div>
+        <div class="planet" id="planet3"></div>
+        <div class="nebula" id="nebula1"></div>
+        <div class="nebula" id="nebula2"></div>
+        <svg class="constellation" width="200" height="200" style="top: 20%; left: 10%;">
+            <line x1="40" y1="40" x2="80" y2="60" stroke="rgba(155,143,212,0.3)" stroke-width="1"/>
+            <line x1="80" y1="60" x2="120" y2="50" stroke="rgba(155,143,212,0.3)" stroke-width="1"/>
+            <line x1="120" y1="50" x2="150" y2="80" stroke="rgba(155,143,212,0.3)" stroke-width="1"/>
+            <circle cx="40" cy="40" r="2" fill="var(--white-soft)"/>
+            <circle cx="80" cy="60" r="2" fill="var(--white-soft)"/>
+            <circle cx="120" cy="50" r="2" fill="var(--white-soft)"/>
+            <circle cx="150" cy="80" r="2" fill="var(--white-soft)"/>
+        </svg>
+        <svg class="constellation" width="180" height="180" style="bottom: 25%; right: 15%;">
+            <line x1="30" y1="30" x2="70" y2="70" stroke="rgba(61,214,200,0.3)" stroke-width="1"/>
+            <line x1="70" y1="70" x2="110" y2="60" stroke="rgba(61,214,200,0.3)" stroke-width="1"/>
+            <line x1="110" y1="60" x2="130" y2="100" stroke="rgba(61,214,200,0.3)" stroke-width="1"/>
+            <circle cx="30" cy="30" r="2" fill="var(--white-soft)"/>
+            <circle cx="70" cy="70" r="2" fill="var(--white-soft)"/>
+            <circle cx="110" cy="60" r="2" fill="var(--white-soft)"/>
+            <circle cx="130" cy="100" r="2" fill="var(--white-soft)"/>
+        </svg>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="app">
+        <!-- SCREEN 1: HOME / DASHBOARD -->
+        <div class="screen active" id="screen-home">
+            <div class="app-logo">
+                <img src="frontend/src/assets/rocket_01.png" alt="CosmicLearners">
+            </div>
+            <h1 class="app-title">CosmicLearners</h1>
+            <p class="app-subtitle">✦ Space Learning for Every Star ✦</p>
+
+            <div class="greeting-card card">
+                <div class="avatar-ring">🧑‍🚀</div>
+                <div class="greeting-text">
+                    <h2>Hello, Star Explorer! 🌟</h2>
+                    <p>
+                        <span class="star-badge">⭐ 247 Stars</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="section-title">🌙 Today's Routine</div>
+            <div class="routine-strip">
+                <div class="routine-item" data-routine="0">
+                    <span>🌅</span>
+                    <span>Wake Up</span>
+                </div>
+                <div class="routine-item" data-routine="1">
+                    <span>🦷</span>
+                    <span>Brush</span>
+                </div>
+                <div class="routine-item" data-routine="2">
+                    <span>🥣</span>
+                    <span>Breakfast</span>
+                </div>
+                <div class="routine-item" data-routine="3">
+                    <span>📚</span>
+                    <span>Learn</span>
+                </div>
+                <div class="routine-item" data-routine="4">
+                    <span>🌙</span>
+                    <span>Bedtime</span>
+                </div>
+            </div>
+
+            <div class="section-title">🚀 Learning Modules</div>
+            <div class="module-grid">
+                <div class="module-card accent-violet" onclick="goScreen('symbol-recognition')">
+                    <div class="module-icon">🔭</div>
+                    <div class="module-label">Symbol Recognition</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <div class="module-card accent-teal" onclick="goScreen('emotions')">
+                    <div class="module-icon">😊</div>
+                    <div class="module-label">Emotions Explorer</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%;"></div>
+                    </div>
+                </div>
+                <div class="module-card accent-pink" onclick="goScreen('communication')">
+                    <div class="module-icon">💬</div>
+                    <div class="module-label">Communication Board</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 45%;"></div>
+                    </div>
+                </div>
+                <div class="module-card accent-yellow" onclick="goScreen('match')">
+                    <div class="module-icon">🧩</div>
+                    <div class="module-label">Match & Learn</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 55%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, rgba(107,95,166,0.3), rgba(61,214,200,0.2)); border: 2px solid var(--violet);" onclick="goScreen('routine')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 48px;">📅</div>
+                    <div>
+                        <div style="font-weight: 800; font-size: 16px; margin-bottom: 4px;">Daily Activity Sequencer</div>
+                        <div style="font-size: 13px; color: var(--text-dim);">Plan your perfect day</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card mt-2">
+                🌟 You've completed <strong>3 out of 5</strong> routines today! Keep going, Star Explorer!
+            </div>
+        </div>
+
+        <!-- SCREEN 2: SYMBOL RECOGNITION -->
+        <div class="screen" id="screen-symbol-recognition">
+            <div class="screen-header">
+                <button class="back-btn" onclick="goScreen('home')">‹</button>
+                <div class="screen-title">Symbol Recognition 🔭</div>
+            </div>
+
+            <div class="score-bar">
+                <div class="score-item">
+                    <span>⭐</span>
+                    <span id="symbol-score">0</span>
+                </div>
+                <div class="score-item">
+                    <span>🎯</span>
+                    <span>Question <span id="symbol-question">1</span>/5</span>
+                </div>
+            </div>
+
+            <div class="symbol-stage">
+                <div class="symbol-prompt">What is this?</div>
+                <div class="symbol-display" id="symbol-display">🍎</div>
+                <div class="symbol-subtext">Tap the correct answer below</div>
+            </div>
+
+            <div class="answer-grid" id="answer-grid">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+
+        <!-- SCREEN 3: EMOTIONS EXPLORER -->
+        <div class="screen" id="screen-emotions">
+            <div class="screen-header">
+                <button class="back-btn" onclick="goScreen('home')">‹</button>
+                <div class="screen-title">Emotions Explorer 😊</div>
+            </div>
+
+            <div class="tip-card">
+                💫 Tap an emotion to learn more about it!
+            </div>
+
+            <div class="emotion-grid" id="emotion-grid">
+                <!-- Generated by JS -->
+            </div>
+
+            <div class="emotion-detail" id="emotion-detail">
+                <div class="emotion-icon" id="emotion-detail-icon"></div>
+                <h3 id="emotion-detail-name"></h3>
+                <p id="emotion-detail-desc"></p>
+                <button class="btn btn-primary full-width" onclick="showReward('Amazing! 🌟', 'Understanding emotions helps us connect with others!')">That's Me! 🌟</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: COMMUNICATION BOARD -->
+        <div class="screen" id="screen-communication">
+            <div class="screen-header">
+                <button class="back-btn" onclick="goScreen('home')">‹</button>
+                <div class="screen-title">Communication Board 💬</div>
+            </div>
+
+            <div class="sentence-strip empty" id="sentence-strip">
+                <!-- Word chips added here -->
+            </div>
+
+            <div class="category-section">
+                <div class="category-title">🙏 Needs</div>
+                <div class="symbol-grid" id="category-needs">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+
+            <div class="category-section">
+                <div class="category-title">❤️ Feelings</div>
+                <div class="symbol-grid" id="category-feelings">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+
+            <div class="category-section">
+                <div class="category-title">🏠 Places & Activities</div>
+                <div class="symbol-grid" id="category-places">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+
+            <div class="action-row">
+                <button class="btn btn-secondary" onclick="clearSentence()">Clear</button>
+                <button class="btn btn-primary" onclick="speakSentence()">🔊 Speak</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 5: MATCH & LEARN -->
+        <div class="screen" id="screen-match">
+            <div class="screen-header">
+                <button class="back-btn" onclick="goScreen('home')">‹</button>
+                <div class="screen-title">Match & Learn 🧩</div>
+            </div>
+
+            <div class="score-bar">
+                <div class="score-item">
+                    <span>✨</span>
+                    <span>Matches: <span id="match-score">0</span>/6</span>
+                </div>
+                <div class="score-item">
+                    <span>🎮</span>
+                    <span>Moves: <span id="match-moves">0</span></span>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                🪐 Tap two cards to find matching pairs!
+            </div>
+
+            <div class="memory-grid" id="memory-grid">
+                <!-- Generated by JS -->
+            </div>
+
+            <button class="btn btn-primary full-width mt-2" id="new-game-btn" style="display: none;" onclick="initMemoryGame()">🚀 New Game</button>
+        </div>
+
+        <!-- SCREEN 6: ROUTINE BUILDER -->
+        <div class="screen" id="screen-routine">
+            <div class="screen-header">
+                <button class="back-btn" onclick="goScreen('home')">‹</button>
+                <div class="screen-title">Routine Builder 📅</div>
+            </div>
+
+            <div class="sequence-zone">
+                <div class="sequence-title">🌟 My Day Plan</div>
+                <div class="sequence-list empty" id="sequence-list">
+                    <!-- Sequence items added here -->
+                </div>
+            </div>
+
+            <div class="section-title">Activity Bank</div>
+            <div class="activity-bank" id="activity-bank">
+                <!-- Generated by JS -->
+            </div>
+
+            <div class="action-row mt-2">
+                <button class="btn btn-secondary" onclick="clearRoutine()">Clear</button>
+                <button class="btn btn-primary" onclick="saveRoutine()">💾 Save Routine</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 7: PROGRESS -->
+        <div class="screen" id="screen-progress">
+            <div class="section-title" style="margin-top: 20px;">⭐ Your Progress</div>
+
+            <div class="progress-ring-card">
+                <div class="progress-ring">
+                    <div class="progress-value">72%</div>
+                </div>
+                <div class="progress-label">Overall Progress</div>
+                <div class="progress-stars">🌟 247 Stars Collected</div>
+            </div>
+
+            <div class="section-title">🏆 Achievements</div>
+            <div class="achievement-grid">
+                <div class="achievement-chip unlocked">
+                    <span>🚀</span>
+                    <span>First Launch</span>
+                </div>
+                <div class="achievement-chip unlocked">
+                    <span>🌙</span>
+                    <span>Night Owl</span>
+                </div>
+                <div class="achievement-chip unlocked">
+                    <span>⭐</span>
+                    <span>Star Collector</span>
+                </div>
+                <div class="achievement-chip locked">
+                    <span>🪐</span>
+                    <span>Planet Explorer</span>
+                </div>
+                <div class="achievement-chip locked">
+                    <span>🌈</span>
+                    <span>Rainbow Day</span>
+                </div>
+                <div class="achievement-chip locked">
+                    <span>🎯</span>
+                    <span>Perfect Match</span>
+                </div>
+            </div>
+
+            <div class="info-card mt-2">
+                🌠 Keep exploring to unlock more achievements!
+            </div>
+        </div>
+
+        <!-- SCREEN 8: SETTINGS -->
+        <div class="screen" id="screen-settings">
+            <div class="section-title" style="margin-top: 20px;">⚙️ Settings</div>
+
+            <div class="settings-card">
+                <h3>🎨 Visual Settings</h3>
+                <div class="setting-row">
+                    <span class="setting-label">Simplified Mode</span>
+                    <div class="toggle" id="toggle-simplified" onclick="toggleSetting('simplified')"></div>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Animation Speed</span>
+                    <div class="slider">
+                        <input type="range" min="0.5" max="2" step="0.1" value="1" id="slider-anim-speed" oninput="updateAnimSpeed(this.value)">
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Brightness</span>
+                    <div class="slider">
+                        <input type="range" min="70" max="130" step="5" value="100" id="slider-brightness" oninput="updateBrightness(this.value)">
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Dark Stars</span>
+                    <div class="toggle" id="toggle-darkstars" onclick="toggleSetting('darkstars')"></div>
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <h3>🔊 Sound Settings</h3>
+                <div class="setting-row">
+                    <span class="setting-label">Sound Effects</span>
+                    <div class="toggle on" id="toggle-sound" onclick="toggleSetting('sound')"></div>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Volume</span>
+                    <div class="slider">
+                        <input type="range" min="0" max="100" step="10" value="80" id="slider-volume">
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Speech Output</span>
+                    <div class="toggle on" id="toggle-speech" onclick="toggleSetting('speech')"></div>
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <h3>👤 Profile</h3>
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                    <div class="avatar-ring" style="width: 50px; height: 50px; font-size: 26px;">🧑‍🚀</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 16px;">Star Explorer</div>
+                        <div style="font-size: 13px; color: var(--text-dim);">Level 8 Astronaut</div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary full-width" onclick="resetProgress()">Reset Progress</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav id="bottom-nav">
+        <div class="nav-tab active" onclick="goNav('home')">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-label">Home</div>
+        </div>
+        <div class="nav-tab" onclick="goNav('progress')">
+            <div class="nav-icon">⭐</div>
+            <div class="nav-label">Progress</div>
+        </div>
+        <div class="nav-tab" onclick="goNav('routine')">
+            <div class="nav-icon">📅</div>
+            <div class="nav-label">Routine</div>
+        </div>
+        <div class="nav-tab" onclick="goNav('settings')">
+            <div class="nav-icon">⚙️</div>
+            <div class="nav-label">Settings</div>
+        </div>
+    </nav>
+
+    <!-- REWARD OVERLAY -->
+    <div id="reward-overlay">
+        <div class="reward-card">
+            <div class="reward-stars">
+                <span>⭐</span>
+                <span>🌟</span>
+                <span>⭐</span>
+            </div>
+            <h2 class="reward-title" id="reward-title">Amazing Work!</h2>
+            <p class="reward-message" id="reward-message">You're doing great, Star Explorer!</p>
+            <button class="btn btn-primary full-width" onclick="closeReward()">Continue 🚀</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== GLOBAL STATE ====================
+        let totalStars = 247;
+        let settings = {
+            simplified: false,
+            animSpeed: 1,
+            brightness: 100,
+            darkstars: false,
+            sound: true,
+            speech: true,
+            volume: 80
+        };
+
+        // ==================== STAR FIELD GENERATOR ====================
+        function generateStars() {
+            const container = document.getElementById('stars-container');
+            const starCount = 120;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 2.5 + 0.5;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const duration = Math.random() * 4 + 3;
+                const delay = Math.random() * 5;
+                
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = x + '%';
+                star.style.top = y + '%';
+                star.style.animationDuration = duration + 's';
+                star.style.animationDelay = delay + 's';
+                
+                container.appendChild(star);
+            }
+        }
+
+        // ==================== SCREEN NAVIGATION ====================
+        function goScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen-' + screenId).classList.add('active');
+        }
+
+        function goNav(tab) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            goScreen(tab);
+        }
+
+        // ==================== FLOATING STAR SPAWNER ====================
+        function spawnFloatingStar(x, y) {
+            const star = document.createElement('div');
+            star.className = 'floating-star';
+            star.textContent = ['⭐', '🌟', '💫'][Math.floor(Math.random() * 3)];
+            star.style.left = x + 'px';
+            star.style.top = y + 'px';
+            document.body.appendChild(star);
+            
+            setTimeout(() => star.remove(), 1200);
+        }
+
+        // ==================== TODAY'S ROUTINE ====================
+        document.querySelectorAll('.routine-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('done');
+                const rect = this.getBoundingClientRect();
+                spawnFloatingStar(rect.left + rect.width/2, rect.top + rect.height/2);
+            });
+        });
+
+        // ==================== SYMBOL RECOGNITION MODULE ====================
+        const symbolQuestions = [
+            { symbol: '🍎', correct: 'Apple', options: ['Apple', 'Banana', 'Orange', 'Grape'] },
+            { symbol: '🐶', correct: 'Dog', options: ['Dog', 'Cat', 'Bird', 'Fish'] },
+            { symbol: '☀️', correct: 'Sun', options: ['Sun', 'Moon', 'Star', 'Cloud'] },
+            { symbol: '📚', correct: 'Book', options: ['Book', 'Pen', 'Paper', 'Bag'] },
+            { symbol: '🚂', correct: 'Train', options: ['Train', 'Car', 'Plane', 'Boat'] }
+        ];
+
+        let currentQuestion = 0;
+        let symbolScore = 0;
+
+        function loadSymbolQuestion() {
+            if (currentQuestion >= symbolQuestions.length) {
+                showReward('Excellent! 🎉', `You scored ${symbolScore} out of ${symbolQuestions.length}! Keep learning, Star Explorer!`);
+                currentQuestion = 0;
+                symbolScore = 0;
+                return;
+            }
+
+            const q = symbolQuestions[currentQuestion];
+            document.getElementById('symbol-display').textContent = q.symbol;
+            document.getElementById('symbol-question').textContent = currentQuestion + 1;
+            document.getElementById('symbol-score').textContent = symbolScore;
+
+            const grid = document.getElementById('answer-grid');
+            grid.innerHTML = '';
+
+            const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.innerHTML = `<span>${q.symbol}</span><span>${option}</span>`;
+                btn.onclick = () => checkSymbolAnswer(option, q.correct, btn);
+                grid.appendChild(btn);
+            });
+        }
+
+        function checkSymbolAnswer(selected, correct, btn) {
+            if (selected === correct) {
+                btn.classList.add('correct');
+                symbolScore++;
+                const rect = btn.getBoundingClientRect();
+                spawnFloatingStar(rect.left + rect.width/2, rect.top + rect.height/2);
+                
+                setTimeout(() => {
+                    currentQuestion++;
+                    loadSymbolQuestion();
+                }, 1200);
+            } else {
+                btn.classList.add('wrong');
+                setTimeout(() => btn.classList.remove('wrong'), 600);
+            }
+        }
+
+        // ==================== EMOTIONS EXPLORER ====================
+        const emotions = [
+            { emoji: '😊', name: 'Happy', desc: 'When you feel happy, your heart feels light and warm! You might smile, laugh, and want to play with friends.' },
+            { emoji: '😢', name: 'Sad', desc: 'Feeling sad is okay. Sometimes things make us feel down, and it\'s important to talk about it with someone we trust.' },
+            { emoji: '😠', name: 'Angry', desc: 'When you feel angry, take deep breaths. It\'s a strong feeling, and it\'s okay to feel this way sometimes.' },
+            { emoji: '😨', name: 'Scared', desc: 'Everyone feels scared sometimes. It helps to remember that you are brave and can ask for help when you need it.' },
+            { emoji: '😴', name: 'Tired', desc: 'When you feel tired, your body needs rest. Sleep helps you feel better and full of energy again!' },
+            { emoji: '🤩', name: 'Excited', desc: 'Excitement makes you want to jump and shout! It\'s that amazing feeling when something great is about to happen.' },
+            { emoji: '😕', name: 'Confused', desc: 'Feeling confused means you don\'t understand something yet. That\'s okay! You can always ask questions.' },
+            { emoji: '😌', name: 'Calm', desc: 'Feeling calm is peaceful and relaxing. Your body feels comfortable and your mind is quiet.' },
+            { emoji: '🥳', name: 'Proud', desc: 'When you accomplish something, you feel proud! It\'s wonderful to celebrate your achievements.' },
+            { emoji: '😤', name: 'Frustrated', desc: 'Frustration happens when things don\'t go as planned. Take a break, and try again when you\'re ready.' }
+        ];
+
+        function loadEmotions() {
+            const grid = document.getElementById('emotion-grid');
+            grid.innerHTML = '';
+
+            emotions.forEach((emotion, index) => {
+                const card = document.createElement('div');
+                card.className = 'emotion-card';
+                card.innerHTML = `<span>${emotion.emoji}</span><div class="emotion-label">${emotion.name}</div>`;
+                card.onclick = () => selectEmotion(index, card);
+                grid.appendChild(card);
+            });
+        }
+
+        function selectEmotion(index, card) {
+            document.querySelectorAll('.emotion-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+
+            const emotion = emotions[index];
+            document.getElementById('emotion-detail-icon').textContent = emotion.emoji;
+            document.getElementById('emotion-detail-name').textContent = emotion.name;
+            document.getElementById('emotion-detail-desc').textContent = emotion.desc;
+            document.getElementById('emotion-detail').classList.add('active');
+
+            const rect = card.getBoundingClientRect();
+            spawnFloatingStar(rect.left + rect.width/2, rect.top + rect.height/2);
+        }
+
+        // ==================== COMMUNICATION BOARD ====================
+        const commSymbols = {
+            needs: [
+                { emoji: '🚽', word: 'Toilet' },
+                { emoji: '💧', word: 'Water' },
+                { emoji: '🍎', word: 'Food' },
+                { emoji: '🥛', word: 'Milk' },
+                { emoji: '😴', word: 'Sleep' },
+                { emoji: '🤕', word: 'Hurt' }
+            ],
+            feelings: [
+                { emoji: '❤️', word: 'Love' },
+                { emoji: '😊', word: 'Happy' },
+                { emoji: '😢', word: 'Sad' },
+                { emoji: '👋', word: 'Hello' }
+            ],
+            places: [
+                { emoji: '🏠', word: 'Home' },
+                { emoji: '🚗', word: 'Car' },
+                { emoji: '🎉', word: 'Party' },
+                { emoji: '🎵', word: 'Music' },
+                { emoji: '🎮', word: 'Play' },
+                { emoji: '🐶', word: 'Pet' },
+                { emoji: '🍕', word: 'Pizza' },
+                { emoji: '🙏', word: 'Please' }
+            ]
+        };
+
+        let sentence = [];
+
+        function loadCommBoard() {
+            ['needs', 'feelings', 'places'].forEach(category => {
+                const container = document.getElementById('category-' + category);
+                container.innerHTML = '';
+
+                commSymbols[category].forEach(symbol => {
+                    const btn = document.createElement('div');
+                    btn.className = 'symbol-btn';
+                    btn.innerHTML = `<span>${symbol.emoji}</span><span>${symbol.word}</span>`;
+                    btn.onclick = () => addToSentence(symbol);
+                    container.appendChild(btn);
+                });
+            });
+        }
+
+        function addToSentence(symbol) {
+            sentence.push(symbol);
+            renderSentence();
+        }
+
+        function renderSentence() {
+            const strip = document.getElementById('sentence-strip');
+            strip.innerHTML = '';
+            
+            if (sentence.length === 0) {
+                strip.classList.add('empty');
+                return;
+            }
+            
+            strip.classList.remove('empty');
+            
+            sentence.forEach((symbol, index) => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.innerHTML = `${symbol.emoji} ${symbol.word}`;
+                chip.onclick = () => removeFromSentence(index);
+                strip.appendChild(chip);
+            });
+        }
+
+        function removeFromSentence(index) {
+            sentence.splice(index, 1);
+            renderSentence();
+        }
+
+        function clearSentence() {
+            sentence = [];
+            renderSentence();
+        }
+
+        function speakSentence() {
+            if (sentence.length === 0 || !settings.speech) return;
+
+            const text = sentence.map(s => s.word).join(' ');
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.9;
+            utterance.pitch = 1.1;
+            window.speechSynthesis.speak(utterance);
+
+            showReward('Message Sent! 📢', 'Great communication, Star Explorer!');
+        }
+
+        // ==================== MEMORY MATCH MODULE ====================
+        const matchSymbols = ['🐘', '🦁', '🐬', '🦋', '🌺', '🍦'];
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let isLocked = false;
+
+        function initMemoryGame() {
+            memoryCards = [...matchSymbols, ...matchSymbols]
+                .sort(() => Math.random() - 0.5)
+                .map((symbol, index) => ({ id: index, symbol, flipped: false, matched: false }));
+            
+            matchedPairs = 0;
+            moves = 0;
+            flippedCards = [];
+            isLocked = false;
+
+            document.getElementById('match-score').textContent = '0';
+            document.getElementById('match-moves').textContent = '0';
+            document.getElementById('new-game-btn').style.display = 'none';
+
+            renderMemoryGrid();
+        }
+
+        function renderMemoryGrid() {
+            const grid = document.getElementById('memory-grid');
+            grid.innerHTML = '';
+
+            memoryCards.forEach((card, index) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'memory-card';
+                if (card.matched) cardEl.classList.add('matched');
+                if (card.flipped) {
+                    cardEl.classList.add('flipped');
+                    cardEl.textContent = card.symbol;
+                } else {
+                    cardEl.innerHTML = '<div class="card-back">⭐</div>';
+                }
+                cardEl.onclick = () => flipCard(index);
+                grid.appendChild(cardEl);
+            });
+        }
+
+        function flipCard(index) {
+            if (isLocked || memoryCards[index].flipped || memoryCards[index].matched) return;
+            if (flippedCards.length >= 2) return;
+
+            memoryCards[index].flipped = true;
+            flippedCards.push(index);
+            renderMemoryGrid();
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('match-moves').textContent = moves;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            isLocked = true;
+            const [index1, index2] = flippedCards;
+
+            if (memoryCards[index1].symbol === memoryCards[index2].symbol) {
+                memoryCards[index1].matched = true;
+                memoryCards[index2].matched = true;
+                matchedPairs++;
+                document.getElementById('match-score').textContent = matchedPairs;
+
+                const card = document.querySelectorAll('.memory-card')[index1];
+                const rect = card.getBoundingClientRect();
+                spawnFloatingStar(rect.left + rect.width/2, rect.top + rect.height/2);
+
+                flippedCards = [];
+                isLocked = false;
+                renderMemoryGrid();
+
+                if (matchedPairs === 6) {
+                    setTimeout(() => {
+                        showReward('Perfect Match! 🎉', `You completed the game in ${moves} moves! Amazing memory!`);
+                        document.getElementById('new-game-btn').style.display = 'block';
+                    }, 500);
+                }
+            } else {
+                setTimeout(() => {
+                    memoryCards[index1].flipped = false;
+                    memoryCards[index2].flipped = false;
+                    flippedCards = [];
+                    isLocked = false;
+                    renderMemoryGrid();
+                }, 1000);
+            }
+        }
+
+        // ==================== ROUTINE BUILDER ====================
+        const activities = [
+            { emoji: '🌅', label: 'Wake Up' },
+            { emoji: '🦷', label: 'Brush' },
+            { emoji: '🥣', label: 'Breakfast' },
+            { emoji: '🎒', label: 'Pack Bag' },
+            { emoji: '📚', label: 'Study' },
+            { emoji: '🍽️', label: 'Lunch' },
+            { emoji: '🧼', label: 'Wash' },
+            { emoji: '🚿', label: 'Shower' },
+            { emoji: '🎨', label: 'Art' },
+            { emoji: '🏃', label: 'Exercise' },
+            { emoji: '🎮', label: 'Play' },
+            { emoji: '📖', label: 'Read' },
+            { emoji: '💤', label: 'Rest' },
+            { emoji: '🌙', label: 'Bedtime' },
+            { emoji: '🧩', label: 'Puzzle' }
+        ];
+
+        let routine = [];
+
+        function loadRoutineBuilder() {
+            const bank = document.getElementById('activity-bank');
+            bank.innerHTML = '';
+
+            activities.forEach((activity, index) => {
+                const card = document.createElement('div');
+                card.className = 'activity-card';
+                card.dataset.index = index;
+                card.innerHTML = `<span>${activity.emoji}</span><span>${activity.label}</span>`;
+                card.onclick = () => addToRoutine(index, card);
+                bank.appendChild(card);
+            });
+        }
+
+        function addToRoutine(index, card) {
+            if (routine.includes(index)) return;
+            
+            routine.push(index);
+            card.classList.add('added');
+            renderRoutine();
+
+            const rect = card.getBoundingClientRect();
+            spawnFloatingStar(rect.left + rect.width/2, rect.top + rect.height/2);
+        }
+
+        function renderRoutine() {
+            const list = document.getElementById('sequence-list');
+            list.innerHTML = '';
+
+            if (routine.length === 0) {
+                list.classList.add('empty');
+                return;
+            }
+
+            list.classList.remove('empty');
+
+            routine.forEach((activityIndex, position) => {
+                const activity = activities[activityIndex];
+                const item = document.createElement('div');
+                item.className = 'sequence-item';
+                item.innerHTML = `
+                    <div class="sequence-number">${position + 1}</div>
+                    ${activity.emoji} ${activity.label}
+                `;
+                item.onclick = () => removeFromRoutine(position);
+                list.appendChild(item);
+            });
+        }
+
+        function removeFromRoutine(position) {
+            const activityIndex = routine[position];
+            routine.splice(position, 1);
+
+            const card = document.querySelector(`.activity-card[data-index="${activityIndex}"]`);
+            if (card) card.classList.remove('added');
+
+            renderRoutine();
+        }
+
+        function clearRoutine() {
+            routine = [];
+            document.querySelectorAll('.activity-card').forEach(c => c.classList.remove('added'));
+            renderRoutine();
+        }
+
+        function saveRoutine() {
+            if (routine.length === 0) return;
+            showReward('Routine Saved! 🎉', `You planned ${routine.length} activities for your day. Great planning!`);
+        }
+
+        // ==================== SETTINGS ====================
+        function toggleSetting(setting) {
+            const toggle = document.getElementById('toggle-' + setting);
+            toggle.classList.toggle('on');
+
+            settings[setting] = toggle.classList.contains('on');
+
+            if (setting === 'simplified') {
+                document.body.classList.toggle('simplified-mode', settings.simplified);
+            }
+        }
+
+        function updateAnimSpeed(value) {
+            settings.animSpeed = value;
+            document.documentElement.style.setProperty('--anim-speed', value);
+        }
+
+        function updateBrightness(value) {
+            settings.brightness = value;
+            document.body.style.filter = `brightness(${value}%)`;
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress?')) {
+                totalStars = 0;
+                symbolScore = 0;
+                currentQuestion = 0;
+                clearRoutine();
+                clearSentence();
+                showReward('Reset Complete', 'Your journey starts fresh! 🚀');
+            }
+        }
+
+        // ==================== REWARD OVERLAY ====================
+        function showReward(title, message) {
+            document.getElementById('reward-title').textContent = title;
+            document.getElementById('reward-message').textContent = message;
+            document.getElementById('reward-overlay').classList.add('active');
+        }
+
+        function closeReward() {
+            document.getElementById('reward-overlay').classList.remove('active');
+        }
+
+        // ==================== INITIALIZATION ====================
+        window.addEventListener('DOMContentLoaded', () => {
+            generateStars();
+            loadSymbolQuestion();
+            loadEmotions();
+            loadCommBoard();
+            initMemoryGame();
+            loadRoutineBuilder();
+        });
+    </script>
+</body>
+</html>

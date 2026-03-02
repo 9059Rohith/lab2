@@ -1,0 +1,289 @@
+/* Sensory Settings Component - ASD Friendly */
+.sensory-settings-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--soft-violet), var(--subtle-teal));
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(107, 163, 190, 0.4);
+  transition: all 0.6s ease;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sensory-settings-toggle:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 10px 30px rgba(139, 127, 168, 0.5);
+}
+
+/* Overlay */
+.sensory-settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 15, 25, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Settings Panel */
+.sensory-settings-panel {
+  background: linear-gradient(135deg, var(--deep-navy), var(--muted-indigo));
+  border: 3px solid var(--subtle-teal);
+  border-radius: 30px;
+  padding: 0;
+  max-width: 600px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(107, 163, 190, 0.4);
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.settings-header {
+  background: linear-gradient(135deg, var(--soft-violet), var(--subtle-teal));
+  padding: 2rem;
+  border-radius: 27px 27px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.settings-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: white;
+  font-family: 'Fredoka One', cursive;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.close-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+/* Content */
+.settings-content {
+  padding: 2.5rem;
+}
+
+/* Setting Groups */
+.setting-group {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.setting-group:last-of-type {
+  border-bottom: none;
+  margin-bottom: 1rem;
+}
+
+.setting-label {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--primary-gold);
+  margin-bottom: 1.2rem;
+  font-family: 'Fredoka One', cursive;
+}
+
+.label-icon {
+  font-size: 1.8rem;
+}
+
+/* Setting Options */
+.setting-options {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.setting-btn {
+  flex: 1;
+  min-width: 100px;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  color: #e8eef3;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  font-family: 'Fredoka One', cursive;
+}
+
+.setting-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  border-color: var(--subtle-teal);
+}
+
+.setting-btn.active {
+  background: linear-gradient(135deg, var(--subtle-teal), var(--primary-blue));
+  border-color: var(--primary-gold);
+  color: white;
+  box-shadow: 0 5px 20px rgba(107, 163, 190, 0.4);
+}
+
+/* Toggle Button */
+.setting-toggle {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.toggle-btn {
+  padding: 1rem 2.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  color: #e8eef3;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  font-family: 'Fredoka One', cursive;
+  min-width: 120px;
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.toggle-btn.active {
+  background: linear-gradient(135deg, var(--primary-green), var(--subtle-teal));
+  border-color: var(--primary-green);
+  color: white;
+  box-shadow: 0 5px 20px rgba(136, 201, 161, 0.4);
+}
+
+/* Settings Note */
+.settings-note {
+  text-align: center;
+  color: var(--primary-blue);
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  padding: 1.2rem;
+  background: rgba(107, 163, 190, 0.15);
+  border-radius: 15px;
+  border: 2px solid rgba(107, 163, 190, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sensory-settings-panel {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .settings-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .settings-content {
+    padding: 1.8rem;
+  }
+
+  .setting-options {
+    flex-direction: column;
+  }
+
+  .setting-btn {
+    min-width: auto;
+  }
+
+  .sensory-settings-toggle {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+/* Global Animation Control */
+:root {
+  --animation-multiplier: 1;
+}
+
+/* Simple Mode - Reduces visual complexity */
+.simple-mode .floating-planet,
+.simple-mode .floating-rocket,
+.simple-mode .floating-symbol {
+  display: none;
+}
+
+.simple-mode .star-field-wrapper {
+  opacity: 0.3;
+}
+
+/* High Contrast Mode */
+.high-contrast-mode {
+  --primary-gold: #FFD700;
+  --primary-pink: #FF69B4;
+  --primary-blue: #00BFFF;
+  --primary-green: #00FF00;
+  --subtle-teal: #00CED1;
+}
+
+.high-contrast-mode button,
+.high-contrast-mode .landing-button,
+.high-contrast-mode .symbol-card {
+  border-width: 4px;
+}

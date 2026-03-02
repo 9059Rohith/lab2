@@ -7,8 +7,10 @@ import ActivitiesPage from './pages/ActivitiesPage';
 import ProgressPage from './pages/ProgressPage';
 import AboutPage from './pages/AboutPage';
 import TeamPage from './pages/TeamPage';
+import RocketGame from './pages/RocketGame';
 import VoiceToggle from './components/VoiceToggle';
 import StarField from './components/StarField';
+import SensorySettings from './components/SensorySettings';
 import './App.css';
 
 function App() {
@@ -27,12 +29,14 @@ function App() {
             <Route path="/progress" element={<ProgressPage voiceEnabled={voiceEnabled} />} />
             <Route path="/about" element={<AboutPage voiceEnabled={voiceEnabled} />} />
             <Route path="/team" element={<TeamPage voiceEnabled={voiceEnabled} />} />
+            <Route path="/rocket-game" element={<RocketGame voiceEnabled={voiceEnabled} />} />
           </Routes>
         </main>
         <VoiceToggle 
           voiceEnabled={voiceEnabled} 
           setVoiceEnabled={setVoiceEnabled} 
         />
+        <SensorySettings />
       </div>
     </Router>
   );

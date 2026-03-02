@@ -1,0 +1,408 @@
+% ============================================================
+% AUTISM MATH LEARNING PORTAL - CONCISE 8 PAGE REPORT
+% Star Math Explorer
+% ============================================================
+
+\documentclass[11pt, a4paper]{article}
+
+% ==================== PACKAGES ====================
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{setspace}
+
+% ==================== COLOR DEFINITIONS ====================
+\definecolor{primaryblue}{RGB}{0, 102, 204}
+\definecolor{accentgreen}{RGB}{0, 153, 102}
+
+% ==================== HYPERLINK SETUP ====================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    urlcolor=primaryblue,
+}
+
+% ==================== HEADER AND FOOTER ====================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{primaryblue}{\textbf{Autism Math Portal}}}
+\fancyhead[R]{\textcolor{accentgreen}{CB.SC.U4CSE23018}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{1.5pt}
+
+% ==================== TITLE FORMATTING ====================
+\titleformat{\section}
+{\color{primaryblue}\normalfont\Large\bfseries}
+{\thesection}{1em}{}
+[\vspace{0.3cm}]
+
+\titleformat{\subsection}
+{\color{accentgreen}\normalfont\large\bfseries}
+{\thesubsection}{0.8em}{}
+[\vspace{0.2cm}]
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setstretch{1.15}
+
+% ==================== DOCUMENT START ====================
+\begin{document}
+
+% ==================== TITLE PAGE ====================
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    {\LARGE\bfseries\color{primaryblue} AUTISM MATH LEARNING PORTAL\par}
+    \vspace{0.5cm}
+    {\large\color{accentgreen} Star Math Explorer\par}
+    
+    \vspace{1.5cm}
+    
+    \begin{center}
+    \fcolorbox{primaryblue}{primaryblue!10}{
+        \parbox{0.75\textwidth}{
+            \centering
+            \textbf{Research Report on Enhanced Math Learning}\\
+            \textit{for Children with Autism Spectrum Disorder}
+        }
+    }
+    \end{center}
+    
+    \vspace{1.5cm}
+    
+    \begin{center}
+    \fcolorbox{accentgreen}{accentgreen!10}{
+        \parbox{0.65\textwidth}{
+            \centering
+            \textbf{Student Information}\\[0.2cm]
+            \textbf{Roll No:} CB.SC.U4CSE23018\\
+            \textbf{Name:} Rohith Kumar\\
+            \textbf{Department:} CSE-A\\
+            \textbf{Institution:} Amrita Vishwa Vidyapeetham\\[0.2cm]
+            \textbf{Course Teacher:} Dr. T. Senthil Kumar\\
+            Professor, Amrita School of Computing\\
+            Email: t\_senthilkumar@cb.amrita.edu
+        }
+    }
+    \end{center}
+    
+    \vspace{1cm}
+    
+    {\large GitHub: \url{https://github.com/9059Rohith/lab2}\par}
+    
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+\newpage
+
+% ==================== SECTION 1 ====================
+\section{Student Information}
+
+\vspace{0.3cm}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Details} \\
+\midrule
+Roll Number & CB.SC.U4CSE23018 \\
+Student Name & Rohith Kumar \\
+Department & Computer Science and Engineering - A \\
+Institution & Amrita Vishwa Vidyapeetham, Coimbatore \\
+Course Teacher & Dr. T. Senthil Kumar \\
+Teacher Email & t\_senthilkumar@cb.amrita.edu \\
+Repository & \url{https://github.com/9059Rohith/lab2} \\
+\bottomrule
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\vspace{0.4cm}
+
+% ==================== SECTION 2 ====================
+\section{About the Use Case}
+
+\subsection{Why This Portal is Required for Autism Kids}
+
+Children with ASD face challenges in traditional math education due to abstract symbol comprehension difficulties. This portal provides:
+\begin{itemize}[leftmargin=*, itemsep=3pt, topsep=5pt]
+    \item \textbf{Specialized visual learning} approach leveraging strengths in visual processing
+    \item \textbf{Self-paced environment} without classroom pressures and time constraints
+    \item \textbf{Sensory accommodation} with customizable audio/visual elements
+    \item \textbf{Safe practice space} eliminating fear of mistakes in social settings
+    \item \textbf{Multi-modal interaction} supporting diverse accessibility needs
+\end{itemize}
+
+\subsection{Challenges in Autism Kids to be Improved}
+
+\begin{itemize}[leftmargin=*, itemsep=3pt, topsep=5pt]
+    \item \textbf{Abstract reasoning:} Difficulty connecting symbols to concrete meanings and real-world applications
+    \item \textbf{Working memory:} Limited capacity for multi-step operations and mental calculations
+    \item \textbf{Attention issues:} Short attention spans requiring frequent re-engagement strategies
+    \item \textbf{Communication barriers:} Limited verbal abilities hindering expression of understanding
+    \item \textbf{Social anxiety:} Stress in group settings inhibiting participation and learning
+\end{itemize}
+
+\subsection{Highlights and Novelty Proposed}
+
+\begin{itemize}[leftmargin=*, itemsep=3pt, topsep=5pt]
+    \item \textbf{Space-themed engagement:} Leverages common special interest in astronomy among ASD children
+    \item \textbf{Advanced interaction modalities:} Keyboard navigation, mouse events (hover, double-click, context menu), touch gestures, screen event monitoring
+    \item \textbf{Screen capture integration:} Session recording for progress documentation and parent/teacher review
+    \item \textbf{Multi-sensory customization:} Visual symbols paired with audio, adjustable volumes and animations
+    \item \textbf{CRA pedagogy:} Concrete-Representational-Abstract approach with emoji examples transitioning to notation
+    \item \textbf{Adaptive feedback:} Real-time engagement monitoring with automatic difficulty adjustment
+\end{itemize}
+
+\subsection{Importance of Visualization}
+
+Visualization is cornerstone for autism learners as Temple Grandin describes "thinking in pictures":
+\begin{itemize}[leftmargin=*, itemsep=3pt, topsep=5pt]
+    \item \textbf{Cognitive alignment:} Visual representations match natural ASD information processing patterns
+    \item \textbf{Memory enhancement:} Color-coded categories (green=addition, pink=subtraction) create multi-dimensional cues
+    \item \textbf{Attention maintenance:} Animated star fields provide gentle motion preventing static environment boredom
+    \item \textbf{Language independence:} Visual symbols transcend linguistic barriers for non-verbal learners
+    \item \textbf{Predictability:} Consistent visual patterns create structured, anxiety-reducing environment
+    \item \textbf{Concrete connection:} Visual examples (🌟 for counting, 🍕 for pi) bridge abstract to tangible
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.65\textwidth]{figure-1.png}
+    \caption{Portal Landing Page - Space-Themed Interface}
+\end{figure}
+
+% ==================== SECTION 3 ====================
+\section{List of Operations in the Portal}
+
+\vspace{0.3cm}
+\renewcommand{\arraystretch}{1.4}
+\footnotesize
+\begin{tabular}{|>{\raggedright}p{2.2cm}|>{\raggedright}p{2.2cm}|>{\raggedright}p{3.2cm}|>{\raggedright\arraybackslash}p{3.8cm}|}
+\hline
+\textbf{Operation} & \textbf{Expected Output} & \textbf{React.js Concepts} & \textbf{Improvement} \\
+\hline
+Keyboard Navigation & Arrow keys navigate, Enter selects & useEffect Hook, Event Listeners, State Management & Motor-impaired accessibility, WCAG compliance \\
+\hline
+Mouse Hover & Delayed tooltip (800ms) & useState, useRef, onMouseEnter/Leave, setTimeout & Prevents overload, progressive disclosure \\
+\hline
+Double-Click Detail & Modal with symbol info & Event Handlers, Conditional Rendering, Modal & Deeper learning without overwhelming \\
+\hline
+Context Menu & Right-click menu & onContextMenu, preventDefault(), Dynamic Rendering & Power-user features, no UI clutter \\
+\hline
+Touch Gestures & Swipe navigation & onTouchStart/Move/End, Custom Hook & Natural tablet interaction, haptic feedback \\
+\hline
+Screen Recording & Session video capture & MediaRecorder API, Blob, File download & Documents progress for IEP evidence \\
+\hline
+Visibility Tracking & Auto-announce on view & IntersectionObserver, useRef, Callback & Audio cues for screen readers \\
+\hline
+Voice Toggle & Enable/disable TTS & useState, Web Speech API, localStorage & Respects sensory preferences \\
+\hline
+Symbol Click & Pronunciation + feedback & onClick, SpeechSynthesis, CSS Transitions & Multi-sensory engagement \\
+\hline
+Animated Background & Moving star particles & Canvas API, requestAnimationFrame & Calming motion, reduces anxiety \\
+\hline
+Confetti Animation & Celebration on mastery & Dynamic DOM, Math.random(), CSS animations & Positive reinforcement \\
+\hline
+Progress Persistence & Save to database & useEffect API calls, async/await & Maintains session continuity \\
+\hline
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\normalsize
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figure-2.png}
+    \caption{Symbol Grid Display with Interactive Elements}
+\end{figure}
+
+% ==================== SECTION 4 ====================
+\section{Improvements for Autism Kids}
+
+\textbf{Memory Improvement:} Visual color-coding creates multi-modal memory traces. Dual coding (visual+audio) engages both systems per Paivio's theory. Spaced repetition support enables natural revisitation aligning with individual consolidation timelines.
+
+\textbf{Contextual Learning:} Real-world symbol connections (🍎 for counting, 🌟 for quantities) ground abstraction. Category organization teaches conceptual relationships leveraging ASD pattern recognition strengths. Space theme capitalizes on special interests.
+
+\textbf{Attention Enhancement:} Controlled sensory environment prevents overload. Engagement monitoring triggers re-focus prompts preventing frustration spirals. Predictable structure reduces navigation cognitive load.
+
+\textbf{Communication Development:} Symbols serve as augmentative communication tools for non-verbal children. Vocabulary expansion through audio support. Reduced social pressure enables learning without verbal response demands.
+
+\textbf{Cognitive Flexibility:} Multiple representations (emoji, numbers, words) promote flexible thinking. Different interaction modalities subtly build executive function skills.
+
+\textbf{Independence:} Self-paced exploration builds autonomy. Customization provides control often limited in daily life. Success experiences create transferable self-efficacy.
+
+\textbf{Anxiety Reduction:} Predictable, safe environment without social unpredictability. Private error-making without peer observation. Sensory customization prevents dysregulation triggers.
+
+\textbf{Progress Documentation:} Screen recording provides concrete skill development evidence for data-driven decisions. Self-monitoring enables metacognitive awareness development.
+
+% ==================== SECTION 5 ====================
+\section{Application Outputs with Explanations}
+
+\textbf{Landing Page:} Animated star field background with "Star Math Explorer" title and "Start Learning" button. Creates positive first impression reducing entry anxiety through simplicity.
+
+\textbf{Symbol Grid:} Color-coded cards (green addition, pink subtraction, gold multiplication) with category headers. Organization reduces cognitive load; color coding enhances memory encoding.
+
+\textbf{Symbol Interaction:} Clicked cards scale up with audio pronunciation and visual feedback. Multi-sensory feedback strengthens learning; clear causality teaches action-consequence relationships.
+
+\textbf{Hover Tooltip:} 800ms delayed display with description and example. Progressive disclosure supports exploratory learning without forced interaction.
+
+\textbf{Context Menu:} Right-click reveals "Hear pronunciation," "See examples," "Practice problems," "Add favorites." Enables differentiated instruction without cluttering basic interface.
+
+\textbf{Keyboard Navigation:} Arrow keys move focus with visible indicators; Enter selects; Escape closes. Accessibility for motor-impaired users with logical tab order.
+
+\textbf{Recording Interface:} Control panel with start/stop buttons and red indicator when active. Documents learning for parent-teacher communication and IEP meetings.
+
+\textbf{Confetti Celebration:} 30 random-colored particles fall on symbol mastery (5 consecutive correct). Positive reinforcement creates emotional success association.
+
+\textbf{Re-engagement Prompt:} After 30s inactivity, gentle pulsing "Ready to learn more?" message appears. Maintains engagement without pressure or forced action.
+
+\textbf{Progress Dashboard:} Visual bars showing symbols learned, time spent, accuracy rate, achievement badges. Makes abstract progress concrete and motivating.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figure-3.png}
+    \caption{Interactive Symbol Card with Multi-Sensory Feedback}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figure-4.png}
+    \caption{Keyboard Navigation and Accessibility Features}
+\end{figure}
+
+% ==================== SECTION 6 ====================
+\section{List of Similar Products}
+
+\vspace{0.3cm}
+\renewcommand{\arraystretch}{1.4}
+\footnotesize
+\begin{tabular}{|>{\raggedright}p{3.5cm}|>{\raggedright}p{4cm}|>{\raggedright\arraybackslash}p{4cm}|}
+\hline
+\textbf{URL} & \textbf{Description} & \textbf{Features} \\
+\hline
+\url{https://www.ixl.com/math} & IXL Math - Adaptive Learning & K-12 curriculum, adaptive difficulty, limited visual supports \\
+\hline
+\url{https://www.prodigygame.com} & Prodigy Math - Game-Based & Fantasy integration, teacher dashboard, may overwhelm ASD \\
+\hline
+\url{https://www.khanacademy.org} & Khan Academy - Free Platform & Comprehensive content, video lessons, text-heavy \\
+\hline
+\url{https://www.otsimo.com} & Otsimo - Special Education & Autism-designed AAC app, educational games \\
+\hline
+\url{https://www.smarttales.app} & Smart Tales - STEM Stories & IBCCES autism certified, non-overstimulating design \\
+\hline
+\url{spacemath.gsfc.nasa.gov} & NASA Space Math & Real NASA data, space theme, advanced level \\
+\hline
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\normalsize
+
+\vspace{0.4cm}
+\textbf{Star Math Explorer Differentiation:} Purpose-built for ASD cognitive profiles (not adapted), symbol recognition focus (not computation), multiple interaction modalities (keyboard/mouse/touch/screen capture), granular sensory customization, special interest theme integration.
+
+% ==================== SECTION 7 ====================
+\section{Research Labs in Autism Education}
+
+\vspace{0.3cm}
+\renewcommand{\arraystretch}{1.4}
+\footnotesize
+\begin{tabular}{|>{\raggedright}p{4cm}|>{\raggedright}p{3.5cm}|>{\raggedright\arraybackslash}p{4cm}|}
+\hline
+\textbf{Lab Name} & \textbf{URL} & \textbf{Professor Details} \\
+\hline
+MIT Media Lab - Personal Robots & \url{https://robots.media.mit.edu} & Prof. Cynthia Breazeal - Social robotics, assistive tech \\
+\hline
+Stanford Autism Center & \url{https://med.stanford.edu/autism.html} & Prof. Antonio Hardan - Novel interventions, computational approaches \\
+\hline
+Yale Child Study Center & \url{https://medicine.yale.edu/childstudy/autism} & Prof. Frederick Shic - Eye-tracking, digital phenotyping \\
+\hline
+Vanderbilt Kennedy Center & \url{https://vkc.vumc.org} & Prof. Nilanjan Sarkar - VR/AR for autism, affective computing \\
+\hline
+UC Davis MIND Institute & \url{https://mindinstitute.ucdavis.edu} & Prof. Sally Rogers - Early intervention, tech-enhanced therapy \\
+\hline
+Georgia Tech - Ubicomp Lab & \url{https://ubicomp.cc.gatech.edu} & Prof. Gregory Abowd - Ubiquitous computing, assistive tech \\
+\hline
+Cambridge Autism Research Centre & \url{https://www.autismresearchcentre.com} & Prof. Simon Baron-Cohen - Cognitive neuroscience \\
+\hline
+University of Washington & \url{https://autism.washington.edu} & Prof. Geraldine Dawson - Early detection, digital therapeutics \\
+\hline
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\normalsize
+
+\vspace{0.5cm}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figure-5.png}
+    \caption{Screen Recording and Progress Tracking Interface}
+\end{figure}
+
+% ==================== SECTION 8 ====================
+\section{Algorithms Implemented}
+
+\textbf{Web Speech API Synthesis:} Converts text labels to spoken audio using SpeechSynthesisUtterance with customizable rate, pitch, volume for multi-sensory learning.
+
+\textbf{Canvas Particle System:} 2D physics simulation initializing N particles with random positions/velocities. Each frame updates position using velocity × deltaTime with boundary wrapping. Uses requestAnimationFrame for 60 FPS.
+
+\textbf{React Virtual DOM Reconciliation:} Tree diffing algorithm creating virtual DOM representation, generating new trees on state changes, identifying minimal changes, then batch-updating real DOM for smooth interactions.
+
+\textbf{Event Delegation:} Event bubbling optimization handling clicks on grid by detecting closest symbol card element, reducing memory overhead for many interactive elements.
+
+\textbf{Debounce for Hover:} Time-based throttling creating intentional 800ms delay before tooltip display, preventing information overwhelm during rapid mouse movements.
+
+\textbf{Intersection Observer:} Visibility detection monitoring when symbols enter viewport at 50% threshold, triggering auto-announcements for screen reader support.
+
+\textbf{Touch Gesture Recognition:} Records touchstart position, tracks touchmove, calculates horizontal displacement on touchend. Classifies as swipe if displacement exceeds 50px threshold with minimal vertical movement.
+
+\textbf{MediaRecorder Capture:} Requests display media stream, creates MediaRecorder, collects data chunks via ondataavailable, generates Blob on stop, creates download URL for session documentation.
+
+\textbf{Engagement Detection:} Activity monitoring tracking last interaction timestamp. Checks every 5 seconds if idle time exceeds 30 seconds, triggering re-engagement prompts while listening to mousemove/click/keydown events.
+
+\textbf{Adaptive Difficulty:} Performance-based selection tracking success rates per category. Introduces next level when >80% success over 10 trials; returns to previous level with supports when <50%, maintaining 70-80% optimal challenge zone.
+
+% ==================== SECTION 9 ====================
+\section{Feature Enhancements and Justifications}
+
+\textbf{AI-Powered Adaptive Learning:} Machine learning analyzing interaction patterns for personalized content, pacing, feedback. Collects time per symbol, errors, engagement metrics for real-time adaptation. \textit{Justification:} Autism spectrum diversity requires true individualization impossible through static programming. Research shows significantly improved outcomes with adaptive instruction for ASD.
+
+\textbf{Eye-Tracking Integration:} Webcam-based tracking (WebGazer.js) detecting attention focus, gaze patterns, generating heatmaps. \textit{Justification:} Identifies overlooked symbols and disengagement moments. Eye tracking reveals attention patterns not captured by explicit responses, valuable for non-verbal children.
+
+\textbf{Voice Command Recognition:} Speech recognition (Web Speech API) for verbal selection ("Show me plus", "What is multiplication"). \textit{Justification:} Enables hands-free operation for motor-impaired users. Supports speech development through pronunciation practice strengthening memory encoding.
+
+\textbf{Parent/Teacher Dashboard:} Web portal with progress graphs, engagement metrics, session recordings, struggle identification, goal tracking, messaging. \textit{Justification:} Parent involvement critically impacts outcomes. Data-driven approach replaces subjective impressions with objective evidence for IEP discussions.
+
+\textbf{Social Learning Features:} Optional peer interaction with shared achievements, anonymous board, cooperative activities, virtual study groups, text-only communication. \textit{Justification:} Controlled digital environment provides "training wheels" for social development. Text-based removes non-verbal interpretation difficulties.
+
+\textbf{AR Symbol Recognition:} Mobile AR (ARCore/ARKit) scanning real objects to overlay mathematical symbols (e.g., point at apples, see "3 + 2 = 5"). \textit{Justification:} Bridges digital to physical world crucial for generalization. AR creates direct connection between abstract symbols and tangible objects, transforming environment into learning opportunity.
+
+\textbf{Gamification System:} Points, levels (Cadet→Explorer→Commander), achievement badges, daily missions, virtual star collection, unlockable themes. \textit{Justification:} Extrinsic motivation particularly effective for ASD learners. Clear concrete goals align with structure preference. Research shows 40% engagement increase with proper gamification.
+
+\textbf{Offline PWA:} Service workers for offline caching, IndexedDB for local storage, background sync, push notifications, installability. \textit{Justification:} Ensures uninterrupted learning without reliable internet. Installation reduces access friction. Native-like experience minimizes distractions. Notifications support routine establishment.
+
+\textbf{Multi-Language Localization:} Full internationalization (Spanish, Mandarin, Hindi, Arabic), localized notation, culturally appropriate examples, RTL support. \textit{Justification:} Autism affects children globally with varying mathematical conventions. Native language enhances comprehension. Cultural relevance impacts engagement. Reduces cognitive load of simultaneous translation.
+
+\textbf{Emotion Regulation Support:} Integrated module teaching emotion identification, visual emotion thermometer, coping strategies (breathing, sensory breaks), automatic difficulty reduction when frustration detected. \textit{Justification:} Emotional regulation difficulties derail learning. Integrated support prevents escalation. Computer-based emotion training shows real-world improvement transfer.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figure-6.png}
+    \caption{Proposed Enhancement - AR Symbol Recognition in Real World}
+\end{figure}
+
+% ==================== CONCLUSION ====================
+\section*{Conclusion}
+
+This autism math portal converges evidence-based pedagogical strategies with advanced React web technologies. Implementing diverse interaction modalities—keyboard, mouse, touch, screen capture—addresses accessibility needs while maintaining engagement. Foundation rests on autism research demonstrating visual processing strengths, structured environment needs, and multi-sensory learning benefits. Proposed enhancements chart path toward truly personalized experiences leveraging AI, AR, and analytics, empowering every child with autism to achieve mathematical competence and confidence.
+
+\vspace{0.5cm}
+\begin{center}
+\textit{"Different, not less."} — Temple Grandin
+\end{center}
+
+\end{document}

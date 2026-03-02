@@ -7,12 +7,12 @@ function Navigation() {
   const location = useLocation();
 
   const navItems = [
-    { path: '/', icon: '🏠', label: 'Home', voice: 'Home page - your starting point!' },
-    { path: '/learn', icon: '📚', label: 'Learn', voice: 'Learn math symbols!' },
-    { path: '/activities', icon: '🎮', label: 'Activities', voice: 'Fun space games!' },
-    { path: '/progress', icon: '📊', label: 'Progress', voice: 'Track your journey!' },
-    { path: '/about', icon: 'ℹ️', label: 'About', voice: 'About this app!' },
-    { path: '/team', icon: '👥', label: 'Team', voice: 'Meet the team!' }
+    { path: '/', label: 'Home', voice: 'Home page' },
+    { path: '/learn', label: 'Learn', voice: 'Learn math symbols' },
+    { path: '/activities', label: 'Activities', voice: 'Interactive activities' },
+    { path: '/progress', label: 'Progress', voice: 'View progress' },
+    { path: '/about', label: 'About', voice: 'About this application' },
+    { path: '/team', label: 'Team', voice: 'Team information' }
   ];
 
   return (
@@ -31,8 +31,7 @@ function Navigation() {
                 className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
                 onMouseEnter={() => speakOnHover(item.voice)}
               >
-                <span className="nav-icon">{item.icon}</span>
-                <span className="nav-label">{item.label}</span>
+                {item.label}
               </Link>
             </li>
           ))}
