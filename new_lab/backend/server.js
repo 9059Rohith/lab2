@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import fetch from 'node-fetch';
+import { createUserProfile, createGameScoreCrud, createRewardCrud, createChatHistoryCrud } from './crud.js';
 
 dotenv.config();
 
@@ -97,9 +98,27 @@ const terminalLogSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const userProfileSchema = new mongoose.Schema(
+  {
+    userId: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    age: Number,
+    preferences: {
+      voiceEnabled: { type: Boolean, default: true },
+      theme: { type: String, default: 'light' },
+      notificationsEnabled: { type: Boolean, default: true }
+    },
+    totalPoints: { type: Number, default: 0 },
+    gamesPlayed: { type: Number, default: 0 }
+  },
+  { timestamps: true }
+);
+
 const Visit = mongoose.model('Visit', visitSchema);
 const Contact = mongoose.model('Contact', contactSchema);
 const TerminalLog = mongoose.model('TerminalLog', terminalLogSchema);
+const UserProfile = mongoose.model('UserProfile', userProfileSchema);
 const GameScore = mongoose.model('GameScore', gameScoreSchema);
 const Reward = mongoose.model('Reward', rewardSchema);
 const ChatHistory = mongoose.model('ChatHistory', chatHistorySchema);
@@ -513,7 +532,15 @@ app.use((req, res) => {
 
 await connectDbIfAvailable();
 
+// Initialize CRUD routes
+const models = { GameScore, Reward, ChatHistory, UserProfile };
+await createUserProfile(app, models);
+await createGameScoreCrud(app, models);
+await createRewardCrud(app, models);
+await createChatHistoryCrud(app, models);
+
 app.listen(PORT, () => {
   console.log(`🚀 Autism Learn Portal Backend running on http://localhost:${PORT}`);
   console.log(`📚 6 Educational Games | 🎓 AI Chatbot | 🏆 Reward System Active`);
+  console.log(`💾 MongoDB CRUD Operations: /api/crud/* | 👤 User Profiles: /api/users/*`);
 });
