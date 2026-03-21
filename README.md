@@ -2,7 +2,11 @@
 
 **A Professional Educational Platform for Mathematical Symbol Learning**
 
+live link:https://jolly-malabi-748925.netlify.app/
+
 live link:https://lab201-eta.vercel.app/
+
+
 
 [![React](https://img.shields.io/badge/React-19.2.0-blue.svg)](https://reactjs.org/)
 [![Node](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
