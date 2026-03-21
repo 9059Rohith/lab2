@@ -1,9 +1,10 @@
 /* Rocket Game Styles - ASD Friendly */
 .rocket-game-page {
-  min-height: 100vh;
-  padding: 120px 2rem 2rem;
+  min-height: calc(100dvh - 110px);
+  padding: 1.4rem 1.25rem 2rem;
   background: linear-gradient(135deg, var(--deep-navy), var(--muted-indigo), var(--deep-navy));
   color: #f0f4f8;
+  overflow-x: hidden;
 }
 
 .game-header {
@@ -145,7 +146,7 @@
 /* Game Container */
 .game-container {
   max-width: 1200px;
-  height: 600px;
+  height: min(64vh, 600px);
   margin: 2rem auto;
   background: linear-gradient(90deg, 
     rgba(10, 15, 25, 0.9),
@@ -159,6 +160,7 @@
   box-shadow: 0 20px 60px rgba(107, 163, 190, 0.3),
               inset 0 0 100px rgba(180, 165, 214, 0.1);
   cursor: none;
+  touch-action: none;
 }
 
 /* Starfield Background */
@@ -382,12 +384,17 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .rocket-game-page {
+    min-height: calc(100dvh - 100px);
+    padding: 1rem 0.8rem 1.4rem;
+  }
+
   .game-title {
     font-size: 2rem;
   }
 
   .game-container {
-    height: 500px;
+    height: min(56vh, 500px);
   }
 
   .rocket {

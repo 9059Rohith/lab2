@@ -47,6 +47,60 @@
   font-weight: 500;
 }
 
+.api-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: #d7e5f8;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.api-status.online {
+  border-color: rgba(79, 209, 197, 0.5);
+  color: #7ef4e6;
+}
+
+.api-status.offline {
+  border-color: rgba(252, 129, 129, 0.5);
+  color: #ffd0d0;
+}
+
+.landing-marquee {
+  margin-top: 1.6rem;
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.landing-marquee-track {
+  display: inline-flex;
+  gap: 1.5rem;
+  white-space: nowrap;
+  min-width: 100%;
+  padding: 0.7rem 1rem;
+  animation: landingMarquee 16s linear infinite;
+}
+
+.landing-marquee-track span {
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #c6d8f0;
+}
+
+.landing-marquee-track span::before {
+  content: '✦';
+  color: #4fd1c5;
+  margin-right: 0.6rem;
+}
+
 .portal-description {
   max-width: 800px;
   margin: 0 auto;
@@ -168,6 +222,30 @@
   padding: 0 2rem;
 }
 
+.games-cta-wrap {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.games-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.6rem;
+  border-radius: 12px;
+  border: 1px solid rgba(99, 179, 237, 0.65);
+  background: linear-gradient(145deg, rgba(99, 179, 237, 0.2), rgba(79, 209, 197, 0.2));
+  color: #eff8ff;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.games-cta-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(145deg, rgba(99, 179, 237, 0.32), rgba(79, 209, 197, 0.32));
+}
+
 .feature-item {
   padding: 2rem;
   background: rgba(255, 255, 255, 0.04);
@@ -248,6 +326,10 @@
   .landing-container {
     padding: 0 1rem;
   }
+
+  .landing-marquee-track {
+    animation-duration: 20s;
+  }
 }
 
 @media (max-width: 480px) {
@@ -261,5 +343,14 @@
 
   .landing-page {
     padding: 1rem 0.5rem;
+  }
+}
+
+@keyframes landingMarquee {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-40%);
   }
 }

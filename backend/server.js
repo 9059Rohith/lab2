@@ -6,10 +6,18 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
+const allowedOrigins = (
+  process.env.CORS_ORIGINS || 'http://localhost:5173,http://localhost:3000'
+)
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
@@ -34,13 +42,14 @@ connectDB();
 // Progress Schema - Child Learning Progress
 const progressSchema = new mongoose.Schema({
   childName: { type: String, required: true },
-  age: { type: Number, required: true },
+  age: { type: Number, default: 0 },
   level: { type: String, enum: ['Beginner', 'Explorer', 'Star Commander'], default: 'Beginner' },
   parentName: String,
-  parentEmail: { type: String, required: true },
+  parentEmail: { type: String, default: 'not-provided@example.com' },
   favoriteSpace: { type: String, enum: ['Moon', 'Star', 'Rocket', 'Planet'] },
   symbolsLearned: [String],
   score: { type: Number, default: 0 },
+  gamesPlayed: { type: Number, default: 0 },
   specialNotes: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
@@ -181,26 +190,103 @@ app.get('/api/feedback', async (req, res) => {
 // Mark symbol as learned
 app.post('/api/symbol-learned', async (req, res) => {
   try {
-    const symbol = new SymbolLearned(req.body);
-    await symbol.save();
-    
-    // Update progress count
-    if (req.body.childName) {
-      const progress = await Progress.findOne({ childName: req.body.childName });
-      if (progress) {
-        if (!progress.symbolsLearned.includes(req.body.symbol)) {
-          progress.symbolsLearned.push(req.body.symbol);
-          progress.score += 10;
-          await progress.save();
-        }
-      }
+    const childName = (req.body.childName || '').trim();
+    const symbolValue = req.body.symbol;
+
+    if (!childName || !symbolValue || !req.body.symbolName) {
+      return res.status(400).json({
+        success: false,
+        error: 'childName, symbol, and symbolName are required.'
+      });
     }
+
+    const exactNamePattern = new RegExp(`^${escapeRegex(childName)}$`, 'i');
+
+    const existingSymbol = await SymbolLearned.findOne({
+      childName: { $regex: exactNamePattern },
+      symbol: symbolValue
+    });
+
+    let symbol = existingSymbol;
+
+    if (!existingSymbol) {
+      symbol = new SymbolLearned({
+        childName,
+        symbol: symbolValue,
+        symbolName: req.body.symbolName,
+        category: req.body.category
+      });
+      await symbol.save();
+    }
+
+    let progress = await Progress.findOne({ childName: { $regex: exactNamePattern } });
+
+    if (!progress) {
+      progress = new Progress({
+        childName,
+        age: 0,
+        level: 'Beginner',
+        parentEmail: 'not-provided@example.com',
+        favoriteSpace: 'Star',
+        symbolsLearned: [],
+        score: 0,
+        gamesPlayed: 0
+      });
+    }
+
+    if (!progress.symbolsLearned.includes(symbolValue)) {
+      progress.symbolsLearned.push(symbolValue);
+      progress.score += 10;
+    }
+
+    progress.updatedAt = Date.now();
+    await progress.save();
     
     res.json({ 
       success: true, 
       message: '🌟 Great job! Symbol learned!',
       data: symbol
     });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Record game session for progress analytics
+app.post('/api/game-played', async (req, res) => {
+  try {
+    const childName = (req.body.childName || '').trim();
+    const scoreDelta = Number(req.body.scoreDelta || 0);
+
+    if (!childName) {
+      return res.status(400).json({
+        success: false,
+        error: 'childName is required.'
+      });
+    }
+
+    const exactNamePattern = new RegExp(`^${escapeRegex(childName)}$`, 'i');
+    let progress = await Progress.findOne({ childName: { $regex: exactNamePattern } });
+
+    if (!progress) {
+      progress = new Progress({
+        childName,
+        age: 0,
+        level: 'Beginner',
+        parentEmail: 'not-provided@example.com',
+        favoriteSpace: 'Star',
+        symbolsLearned: [],
+        score: 0,
+        gamesPlayed: 0
+      });
+    }
+
+    progress.gamesPlayed += 1;
+    progress.score += scoreDelta;
+    progress.updatedAt = Date.now();
+    await progress.save();
+
+    res.json({ success: true, message: 'Game activity recorded!', data: progress });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

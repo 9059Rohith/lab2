@@ -8,6 +8,7 @@ import ChatPage from './pages/ChatPage';
 import RewardsPage from './pages/RewardsPage';
 import AboutPage from './pages/AboutPage';
 import SymbolsPage from './pages/SymbolsPage';
+import UserProfilePage from './pages/UserProfilePage';
 import { fetchStats } from './api';
 import { speak, uid } from './utils';
 
@@ -59,6 +60,7 @@ export default function App() {
           element={<GamesPage userId={userId} voiceEnabled={voiceEnabled} onScoreSaved={refreshPoints} />}
         />
         <Route path="/chat" element={<ChatPage userId={userId} voiceEnabled={voiceEnabled} />} />
+        <Route path="/profile" element={<UserProfilePage userId={userId} voiceEnabled={voiceEnabled} />} />
         <Route path="/rewards" element={<RewardsPage userId={userId} voiceEnabled={voiceEnabled} refreshTrigger={totalPoints} />} />
         <Route path="/symbols" element={<SymbolsPage voiceEnabled={voiceEnabled} />} />
         <Route path="/about" element={<AboutPage voiceEnabled={voiceEnabled} />} />

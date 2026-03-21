@@ -1,13 +1,75 @@
-/* App Container */
+:root {
+  --brand-primary: #3aa7a3;
+  --brand-secondary: #f0bd56;
+  --surface-base: rgba(255, 255, 255, 0.08);
+  --surface-raised: rgba(255, 255, 255, 0.13);
+  --surface-accent: rgba(99, 179, 237, 0.16);
+  --ui-border: rgba(255, 255, 255, 0.2);
+  --text-strong: #edf4ff;
+  --text-soft: #b9c8da;
+  --shadow-md: 0 12px 32px rgba(8, 16, 32, 0.32);
+  --shadow-lg: 0 16px 44px rgba(8, 16, 32, 0.45);
+}
+
+[data-theme='light'] {
+  --brand-primary: #1d7f7a;
+  --brand-secondary: #b86d23;
+  --surface-base: rgba(255, 255, 255, 0.82);
+  --surface-raised: rgba(255, 255, 255, 0.92);
+  --surface-accent: rgba(13, 78, 130, 0.14);
+  --ui-border: rgba(18, 52, 78, 0.22);
+  --text-strong: #112035;
+  --text-soft: #38516f;
+  --shadow-md: 0 10px 26px rgba(11, 30, 54, 0.15);
+  --shadow-lg: 0 14px 34px rgba(11, 30, 54, 0.2);
+}
+
 .app-container {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  color: var(--text-strong);
 }
 
 .main-content {
   position: relative;
   z-index: 1;
+  padding-bottom: 4rem;
+}
+
+.info-marquee {
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  overflow: hidden;
+  border-bottom: 1px solid var(--ui-border);
+  background: linear-gradient(90deg, rgba(34, 53, 84, 0.8), rgba(31, 100, 100, 0.78));
+  backdrop-filter: blur(8px);
+}
+
+[data-theme='light'] .info-marquee {
+  background: linear-gradient(90deg, rgba(242, 249, 255, 0.95), rgba(224, 246, 247, 0.95));
+}
+
+.info-marquee-track {
+  display: inline-flex;
+  gap: 2.2rem;
+  white-space: nowrap;
+  padding: 0.75rem 0;
+  min-width: 100%;
+  animation: marqueeScroll 24s linear infinite;
+}
+
+.info-marquee-track span {
+  color: var(--text-strong);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.info-marquee-track span::before {
+  content: '•';
+  color: var(--brand-secondary);
+  margin-right: 0.8rem;
 }
 
 /* Page Titles - Common Styles */
@@ -33,18 +95,19 @@
 
 .page-subtitle {
   font-size: 22px;
-  color: #e8eef3;
+  color: var(--text-soft);
   text-align: center;
   margin-bottom: 40px;
 }
 
 /* Card Component - ASD-Friendly Styling */
 .card {
-  background: linear-gradient(135deg, rgba(139, 127, 168, 0.25), rgba(107, 163, 190, 0.25));
-  border: 3px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, var(--surface-accent), var(--surface-base));
+  border: 2px solid var(--ui-border);
   border-radius: 25px;
   padding: 35px;
   backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-md);
 }
 
 .card h2 {
@@ -157,4 +220,13 @@ html {
 ::selection {
   background-color: rgba(255, 215, 0, 0.3);
   color: #fff;
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-45%);
+  }
 }

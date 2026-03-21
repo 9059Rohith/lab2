@@ -1,39 +1,41 @@
 .voice-toggle {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 3px solid var(--star-gold);
-  background: linear-gradient(135deg, var(--star-gold), var(--nebula-pink));
-  color: white;
-  font-size: 2rem;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  width: 90px;
+  height: 90px;
+  border-radius: 999px;
+  border: 2px solid var(--ui-border);
+  background: linear-gradient(135deg, var(--surface-accent), var(--surface-base));
+  color: var(--text-strong);
+  font-size: 1.75rem;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
-  z-index: 9999;
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+  z-index: 1200;
+  box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
-  animation: pulse 2s infinite;
+  animation: pulse 2.8s infinite;
 }
 
 .voice-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 50px rgba(255, 215, 0, 0.9);
+  transform: scale(1.06);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--brand-primary);
 }
 
 .voice-toggle.active {
-  background: linear-gradient(135deg, var(--star-gold), var(--alien-green));
-  animation: pulse 2s infinite;
+  background: linear-gradient(135deg, rgba(58, 167, 163, 0.95), rgba(115, 210, 232, 0.95));
+  color: #f5ffff;
+  animation: pulse 2.8s infinite;
 }
 
 .voice-toggle.muted {
-  background: linear-gradient(135deg, #666, #999);
-  border-color: #999;
+  background: linear-gradient(135deg, rgba(89, 101, 120, 0.9), rgba(128, 134, 146, 0.9));
+  border-color: rgba(197, 204, 218, 0.5);
   animation: none;
 }
 
@@ -43,27 +45,27 @@
 }
 
 .voice-text {
-  font-size: 0.5rem;
+  font-size: 0.62rem;
   font-weight: bold;
   text-align: center;
-  font-family: 'Fredoka One', cursive;
+  letter-spacing: 0.03em;
 }
 
 @keyframes pulse {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 0 0 rgba(58, 167, 163, 0.3);
   }
   50% {
-    box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+    box-shadow: 0 0 0 12px rgba(58, 167, 163, 0);
   }
 }
 
 @media (max-width: 768px) {
   .voice-toggle {
-    width: 60px;
-    height: 60px;
-    bottom: 20px;
-    right: 20px;
+    width: 72px;
+    height: 72px;
+    bottom: 1rem;
+    right: 1rem;
   }
   
   .voice-icon {
@@ -71,6 +73,6 @@
   }
   
   .voice-text {
-    font-size: 0.4rem;
+    font-size: 0.52rem;
   }
 }

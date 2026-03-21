@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import apiClient from '../utils/apiClient';
 import './RocketGame.css';
 
 function RocketGame() {
@@ -13,6 +14,25 @@ function RocketGame() {
   const gameLoopRef = useRef(null);
   const obstacleTimerRef = useRef(null);
   const starTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      clearInterval(gameLoopRef.current);
+      clearInterval(obstacleTimerRef.current);
+      clearInterval(starTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!gameStarted) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [gameStarted]);
 
   // Handle rocket movement
   useEffect(() => {
@@ -33,6 +53,10 @@ function RocketGame() {
   // Handle touch/mouse movement
   const handleTouchMove = (e) => {
     if (!gameStarted || gameOver) return;
+
+    if (e.cancelable) {
+      e.preventDefault();
+    }
     
     const container = e.currentTarget;
     const rect = container.getBoundingClientRect();
@@ -50,12 +74,23 @@ function RocketGame() {
 
   // Start game
   const startGame = () => {
+    clearInterval(gameLoopRef.current);
+    clearInterval(obstacleTimerRef.current);
+    clearInterval(starTimerRef.current);
+
     setGameStarted(true);
     setGameOver(false);
     setScore(0);
     setRocketPosition(50);
     setObstacles([]);
     setStars([]);
+
+    const childName = localStorage.getItem('childName');
+    if (childName) {
+      apiClient.post('/game-played', { childName: childName.trim() }).catch((error) => {
+        console.error('Error recording rocket game session:', error);
+      });
+    }
 
     // Game loop
     gameLoopRef.current = setInterval(() => {
@@ -192,6 +227,7 @@ function RocketGame() {
           className="game-container"
           onMouseMove={handleTouchMove}
           onTouchMove={handleTouchMove}
+          onTouchStart={handleTouchMove}
         >
           {/* Rocket */}
           <div 

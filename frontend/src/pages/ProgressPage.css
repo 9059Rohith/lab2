@@ -23,6 +23,23 @@
   color: #a8c5da;
 }
 
+.refresh-progress-btn {
+  margin-top: 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 179, 237, 0.45);
+  background: rgba(99, 179, 237, 0.12);
+  color: #d9eeff;
+  padding: 0.7rem 1.15rem;
+  font-size: 0.95rem;
+  min-height: 0;
+  min-width: 0;
+}
+
+.refresh-progress-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(99, 179, 237, 0.22);
+}
+
 .loading {
   display: flex;
   flex-direction: column;

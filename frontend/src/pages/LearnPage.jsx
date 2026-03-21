@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { speakOnPageLoad, speakSymbol, speakCelebration } from '../utils/voiceService';
 import { getAllSymbols } from '../data/symbolsData';
-import axios from 'axios';
+import apiClient from '../utils/apiClient';
 import './LearnPage.css';
 
 // Import educational illustrations
@@ -25,11 +25,29 @@ function LearnPage({ voiceEnabled }) {
     if (voiceEnabled) {
       speakOnPageLoad(location.pathname, voiceEnabled);
     }
-  }, [voiceEnabled]);
+  }, [voiceEnabled, location.pathname]);
+
+  useEffect(() => {
+    const loadLearnedSymbols = async () => {
+      if (!childName) return;
+
+      try {
+        const response = await apiClient.get(`/symbol-learned/${encodeURIComponent(childName)}`);
+        const learned = response.data?.data?.map((item) => item.symbol) || [];
+        setLearnedSymbols(Array.from(new Set(learned)));
+      } catch (error) {
+        console.error('Error loading learned symbols:', error);
+      }
+    };
+
+    loadLearnedSymbols();
+  }, [childName]);
 
   const handleSaveName = () => {
-    if (childName.trim()) {
-      localStorage.setItem('childName', childName);
+    const normalizedName = childName.trim();
+    if (normalizedName) {
+      localStorage.setItem('childName', normalizedName);
+      setChildName(normalizedName);
       setShowNamePrompt(false);
     }
   };
@@ -45,7 +63,7 @@ function LearnPage({ voiceEnabled }) {
       // Save to database
       if (childName) {
         try {
-          await axios.post('http://localhost:3000/api/symbol-learned', {
+          await apiClient.post('/symbol-learned', {
             childName,
             symbol: symbol.symbol,
             symbolName: symbol.name,
@@ -74,17 +92,11 @@ function LearnPage({ voiceEnabled }) {
   };
 
   const allSymbols = getAllSymbols();
-  console.log('All Symbols:', allSymbols);
-  console.log('Symbols count:', allSymbols.length);
   
   const categories = ['all', ...new Set(allSymbols.map(s => s.category))];
   const filteredSymbols = selectedCategory === 'all' 
     ? allSymbols 
     : allSymbols.filter(s => s.category === selectedCategory);
-  
-  console.log('Filtered Symbols:', filteredSymbols.length);
-  console.log('Selected Category:', selectedCategory);
-  console.log('Show Name Prompt:', showNamePrompt);
 
   if (showNamePrompt) {
     return (

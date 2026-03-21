@@ -13,6 +13,7 @@ export default function Navbar({ totalPoints }) {
           <NavLink to="/" end>Home</NavLink>
           <NavLink to="/games">Games</NavLink>
           <NavLink to="/symbols">Symbols Grid</NavLink>
+          <NavLink to="/profile">👤 Profile</NavLink>
           <NavLink to="/chat" className="ai-tutor-link">AI Tutor</NavLink>
           <NavLink to="/rewards">Rewards</NavLink>
           <NavLink to="/about">About</NavLink>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { speakOnPageLoad } from '../utils/voiceService';
 import { getAllSymbols } from '../data/symbolsData';
-import axios from 'axios';
+import apiClient from '../utils/apiClient';
 import './ProgressPage.css';
 
 // Import assets
@@ -18,7 +18,7 @@ import saturn from '../assets/saturn.png';
 function ProgressPage({ voiceEnabled }) {
   const location = useLocation();
   const [progressData, setProgressData] = useState(null);
-  const [childName, setChildName] = useState(localStorage.getItem('childName') || 'Student');
+  const [childName] = useState((localStorage.getItem('childName') || '').trim() || 'Student');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,15 +30,36 @@ function ProgressPage({ voiceEnabled }) {
   }, [voiceEnabled, location.pathname]);
 
   const fetchProgressData = async () => {
+    const allSymbols = getAllSymbols();
+
     try {
-      const response = await axios.get(`http://localhost:3000/api/progress/${childName}`);
-      setProgressData(response.data);
+      const [progressResponse, symbolsResponse] = await Promise.all([
+        apiClient.get(`/progress/${encodeURIComponent(childName)}`),
+        apiClient.get(`/symbol-learned/${encodeURIComponent(childName)}`)
+      ]);
+
+      const progressEntries = progressResponse.data?.data || [];
+      const latestProgress = progressEntries[0] || {};
+      const learnedSymbols = Array.from(
+        new Set((symbolsResponse.data?.data || []).map((item) => item.symbol))
+      );
+
+      setProgressData({
+        learnedSymbols,
+        totalSymbols: allSymbols.length,
+        score: latestProgress.score || learnedSymbols.length * 10,
+        gamesPlayed: latestProgress.gamesPlayed || 0,
+        lastActive:
+          latestProgress.updatedAt ||
+          symbolsResponse.data?.data?.[0]?.learnedAt ||
+          new Date().toISOString()
+      });
     } catch (error) {
       console.error('Error fetching progress:', error);
       // Set default progress data
       setProgressData({
         learnedSymbols: [],
-        totalSymbols: getAllSymbols().length,
+        totalSymbols: allSymbols.length,
         score: 0,
         gamesPlayed: 0,
         lastActive: new Date().toISOString()
@@ -108,7 +129,7 @@ function ProgressPage({ voiceEnabled }) {
   const categoryProgress = categories.map(cat => {
     const categorySymbols = allSymbols.filter(s => s.category === cat);
     const learnedInCategory = categorySymbols.filter(s =>
-      progressData?.learnedSymbols?.some(ls => ls.symbol === s.symbol)
+      progressData?.learnedSymbols?.includes(s.symbol)
     ).length;
     return {
       name: cat.charAt(0).toUpperCase() + cat.slice(1),
@@ -125,6 +146,13 @@ function ProgressPage({ voiceEnabled }) {
         <p className="page-subtitle">
           Student: {childName} | Tracking Symbol Mastery
         </p>
+        <button
+          type="button"
+          className="refresh-progress-btn"
+          onClick={fetchProgressData}
+        >
+          Refresh Progress
+        </button>
       </div>
 
       {/* Overall Progress */}

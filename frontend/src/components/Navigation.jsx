@@ -10,6 +10,7 @@ function Navigation() {
     { path: '/', label: 'Home', voice: 'Home page' },
     { path: '/learn', label: 'Learn', voice: 'Learn math symbols' },
     { path: '/activities', label: 'Activities', voice: 'Interactive activities' },
+    { path: '/rocket-game', label: 'Rocket Game', voice: 'Play rocket game' },
     { path: '/progress', label: 'Progress', voice: 'View progress' },
     { path: '/about', label: 'About', voice: 'About this application' },
     { path: '/team', label: 'Team', voice: 'Team information' }

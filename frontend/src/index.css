@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap');
+
 /* Root Variables - ASD-Friendly Space Theme Colors */
 :root {
   /* Soft, Calming Color Palette for ASD */
@@ -17,7 +19,7 @@
   --bg-space: linear-gradient(135deg, #1a2332, #2d3748, #1a2332);
   
   /* Fonts */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Baloo 2', 'Trebuchet MS', sans-serif;
   line-height: 1.6;
   font-weight: 400;
   
@@ -29,6 +31,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+[data-theme='light'] {
+  --deep-navy: #e7f3ff;
+  --muted-indigo: #e3f8fb;
+  --soft-violet: #406090;
+  --subtle-teal: #0e7f87;
 }
 
 /* Global Reset */
@@ -45,8 +54,9 @@ body {
   min-height: 100vh;
   background: linear-gradient(135deg, var(--deep-navy), var(--muted-indigo), var(--deep-navy));
   background-attachment: fixed;
-  color: #f0f4f8;
+  color: var(--text-strong, #f0f4f8);
   overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -80,13 +90,13 @@ p {
 
 /* Links */
 a {
-  color: var(--primary-blue);
+  color: var(--brand-primary, var(--primary-blue));
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 a:hover {
-  color: var(--primary-gold);
+  color: var(--brand-secondary, var(--primary-gold));
 }
 
 /* Buttons - Large Touch Targets for ASD */

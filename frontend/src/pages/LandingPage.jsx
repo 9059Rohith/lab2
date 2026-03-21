@@ -1,21 +1,37 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { speakOnPageLoad, speakOnHover } from '../utils/voiceService';
+import apiClient from '../utils/apiClient';
 import rocketLogo from '../assets/blue_rocket_logo_stellar.png';
 import blueCrystal from '../assets/blue_crystal.png';
 import greenCrystal from '../assets/green_crystal.png';
 import purpleCrystal from '../assets/purple crystal.png';
 import superCrystal from '../assets/super_main_crystal.png';
+import AssetShowcase from '../components/AssetShowcase';
 import './LandingPage.css';
 
 function LandingPage({ voiceEnabled }) {
   const location = useLocation();
+  const [apiStatus, setApiStatus] = useState('checking');
 
   useEffect(() => {
     if (voiceEnabled) {
       speakOnPageLoad(location.pathname, voiceEnabled);
     }
   }, [voiceEnabled, location.pathname]);
+
+  useEffect(() => {
+    const checkBackend = async () => {
+      try {
+        const response = await apiClient.get('/health');
+        setApiStatus(response.data?.status === 'ok' ? 'online' : 'offline');
+      } catch {
+        setApiStatus('offline');
+      }
+    };
+
+    checkBackend();
+  }, []);
 
   const navigationCards = [
     {
@@ -60,8 +76,21 @@ function LandingPage({ voiceEnabled }) {
           <p className="portal-subtitle">
             An Educational Portal for Mathematical Symbol Learning
           </p>
+          <div className={`api-status ${apiStatus}`}>
+            Backend Status: {apiStatus === 'checking' ? 'Checking...' : apiStatus === 'online' ? 'Connected' : 'Offline'}
+          </div>
           <div className="portal-description">
             <p>Designed specifically for children with autism spectrum disorder to learn mathematical concepts through structured, visual learning experiences.</p>
+          </div>
+          <div className="landing-marquee" aria-label="learning highlights">
+            <div className="landing-marquee-track">
+              <span>27+ math symbols</span>
+              <span>voice support</span>
+              <span>progress tracking</span>
+              <span>rocket game</span>
+              <span>memory and quiz activities</span>
+              <span>calm visual mode</span>
+            </div>
           </div>
         </header>
 
@@ -112,7 +141,14 @@ function LandingPage({ voiceEnabled }) {
               <p>Monitor learning journey with detailed analytics and achievement milestones</p>
             </div>
           </div>
+          <div className="games-cta-wrap">
+            <Link to="/rocket-game" className="games-cta-btn">
+              Launch Rocket Game
+            </Link>
+          </div>
         </section>
+
+        <AssetShowcase />
 
         {/* Information Section */}
         <footer className="landing-footer">

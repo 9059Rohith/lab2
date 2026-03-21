@@ -11,15 +11,31 @@ import RocketGame from './pages/RocketGame';
 import VoiceToggle from './components/VoiceToggle';
 import StarField from './components/StarField';
 import SensorySettings from './components/SensorySettings';
+import ThemeToggle from './components/ThemeToggle';
 import './App.css';
 
 function App() {
   const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const [theme, setTheme] = useState(localStorage.getItem('siteTheme') || 'dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('siteTheme', theme);
+  }, [theme]);
 
   return (
     <Router>
       <div className="app-container">
         <StarField />
+        <div className="info-marquee" role="status" aria-live="polite">
+          <div className="info-marquee-track">
+            <span>Welcome to Star Math Explorer</span>
+            <span>Theme toggle and comfort settings available</span>
+            <span>Rocket Game and learning activities are ready</span>
+            <span>Progress sync works with backend API</span>
+            <span>Learn symbols in a calm, playful, and structured way</span>
+          </div>
+        </div>
         <Navigation />
         <main className="main-content">
           <Routes>
@@ -32,6 +48,7 @@ function App() {
             <Route path="/rocket-game" element={<RocketGame voiceEnabled={voiceEnabled} />} />
           </Routes>
         </main>
+        <ThemeToggle theme={theme} setTheme={setTheme} />
         <VoiceToggle 
           voiceEnabled={voiceEnabled} 
           setVoiceEnabled={setVoiceEnabled} 

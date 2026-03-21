@@ -14,26 +14,32 @@ function AboutPage({ voiceEnabled }) {
 
   const features = [
     {
+      icon: '🎨',
       title: 'Visual Learning',
       description: 'Colorful symbols and structured design make learning effective and engaging.'
     },
     {
+      icon: '🔊',
       title: 'Audio Support',
       description: 'Clear pronunciation for every symbol supports multi-sensory learning.'
     },
     {
+      icon: '🎮',
       title: 'Interactive Activities',
       description: 'Educational exercises reinforce learning through practice.'
     },
     {
+      icon: '📈',
       title: 'Progress Tracking',
       description: 'Monitor learning progress and symbol mastery over time.'
     },
     {
+      icon: '🏅',
       title: 'Achievement System',
       description: 'Earn recognition and celebrate learning milestones.'
     },
     {
+      icon: '🛡️',
       title: 'Safe Environment',
       description: 'Ad-free, secure platform designed specifically for educational use.'
     }

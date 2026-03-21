@@ -1,21 +1,34 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { speakOnPageLoad, speakText } from '../utils/voiceService';
 import { getAllSymbols } from '../data/symbolsData';
+import apiClient from '../utils/apiClient';
 import './ActivitiesPage.css';
 
 // Import educational assets
 import chefKid from '../assets/chef_kid.png';
 import huskyPlaying from '../assets/huskey_playing_with_ball.png';
-import jokerLooking from '../assets/joker_seeing_up.png';
 import manDancing from '../assets/man_dancing.png';
 import guitarPerson from '../assets/person_playing_guitar.png';
+import jokerLooking from '../assets/joker_seeing_up.png';
 import greenCrystal from '../assets/green_crystal.png';
 import purpleCrystal from '../assets/purple crystal.png';
 import blueCrystal from '../assets/blue_crystal.png';
 
+const getRandomItem = (items) => items[Math.floor(Math.random() * items.length)];
+
+const shuffleArray = (items) => {
+  const clone = [...items];
+  for (let i = clone.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [clone[i], clone[j]] = [clone[j], clone[i]];
+  }
+  return clone;
+};
+
 function ActivitiesPage({ voiceEnabled }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [currentGame, setCurrentGame] = useState(null);
   const [score, setScore] = useState(0);
   const [question, setQuestion] = useState(null);
@@ -32,10 +45,10 @@ function ActivitiesPage({ voiceEnabled }) {
   // Quiz Game Logic
   const generateQuizQuestion = () => {
     const allSymbols = getAllSymbols();
-    const correctSymbol = allSymbols[Math.floor(Math.random() * allSymbols.length)];
+    const correctSymbol = getRandomItem(allSymbols);
     const wrongSymbols = allSymbols.filter(s => s.symbol !== correctSymbol.symbol);
-    const shuffledWrong = wrongSymbols.sort(() => Math.random() - 0.5).slice(0, 3);
-    const options = [correctSymbol, ...shuffledWrong].sort(() => Math.random() - 0.5);
+    const shuffledWrong = shuffleArray(wrongSymbols).slice(0, 3);
+    const options = shuffleArray([correctSymbol, ...shuffledWrong]);
 
     setQuestion({
       type: 'identify',
@@ -50,6 +63,14 @@ function ActivitiesPage({ voiceEnabled }) {
     setGameStarted(true);
     setScore(0);
     setFeedback('');
+
+    const childName = localStorage.getItem('childName');
+    if (childName) {
+      apiClient.post('/game-played', { childName: childName.trim() }).catch((error) => {
+        console.error('Error recording game session:', error);
+      });
+    }
+
     if (game === 'quiz') {
       generateQuizQuestion();
     } else if (game === 'memory') {
@@ -88,9 +109,8 @@ function ActivitiesPage({ voiceEnabled }) {
 
   const initializeMemoryGame = () => {
     const allSymbols = getAllSymbols();
-    const selectedSymbols = allSymbols.sort(() => Math.random() - 0.5).slice(0, 6);
-    const cards = [...selectedSymbols, ...selectedSymbols]
-      .sort(() => Math.random() - 0.5)
+    const selectedSymbols = shuffleArray(allSymbols).slice(0, 6);
+    const cards = shuffleArray([...selectedSymbols, ...selectedSymbols])
       .map((symbol, index) => ({ ...symbol, id: index }));
     setMemoryCards(cards);
     setFlippedCards([]);
@@ -132,7 +152,7 @@ function ActivitiesPage({ voiceEnabled }) {
 
   const initializeMatchGame = () => {
     const allSymbols = getAllSymbols();
-    const selectedSymbols = allSymbols.sort(() => Math.random() - 0.5).slice(0, 5);
+    const selectedSymbols = shuffleArray(allSymbols).slice(0, 5);
     setMatchPairs(selectedSymbols);
     setMatchedPairs([]);
     setSelectedSymbol(null);
@@ -188,6 +208,13 @@ function ActivitiesPage({ voiceEnabled }) {
       description: 'Connect symbols with their correct descriptions',
       image: guitarPerson,
       difficulty: 'Intermediate'
+    },
+    {
+      id: 'rocket',
+      title: 'Rocket Adventure',
+      description: 'Fly through space, collect stars, and avoid obstacles',
+      image: jokerLooking,
+      difficulty: 'All Levels'
     }
   ];
 
@@ -215,9 +242,15 @@ function ActivitiesPage({ voiceEnabled }) {
                 </div>
                 <button
                   className="start-activity-btn"
-                  onClick={() => handleStartGame(activity.id)}
+                  onClick={() => {
+                    if (activity.id === 'rocket') {
+                      navigate('/rocket-game');
+                      return;
+                    }
+                    handleStartGame(activity.id);
+                  }}
                 >
-                  Start Activity
+                  {activity.id === 'rocket' ? 'Launch Game' : 'Start Activity'}
                 </button>
               </div>
             </div>

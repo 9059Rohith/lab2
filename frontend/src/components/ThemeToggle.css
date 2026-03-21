@@ -1,0 +1,48 @@
+.theme-toggle {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 8.4rem;
+  z-index: 1200;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 3.25rem;
+  min-width: 3.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  border: 2px solid var(--ui-border);
+  background: linear-gradient(140deg, var(--surface-accent), var(--surface-base));
+  color: var(--text-strong);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand-primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.theme-toggle-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.theme-toggle-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    right: 1rem;
+    bottom: 7.4rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .theme-toggle-label {
+    display: none;
+  }
+}

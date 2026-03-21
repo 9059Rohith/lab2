@@ -40,18 +40,22 @@ function TeamPage({ voiceEnabled }) {
 
   const specialThanks = [
     {
+      icon: '👨‍👩‍👧‍👦',
       title: 'Parents & Families',
       description: 'For valuable feedback and support in developing this application'
     },
     {
+      icon: '🧑‍🏫',
       title: 'Special Education Teachers',
       description: 'For sharing expertise and insights in autism education'
     },
     {
+      icon: '🌟',
       title: 'Young Learners',
       description: 'For inspiring the development of accessible educational tools'
     },
     {
+      icon: '🔬',
       title: 'Research Community',
       description: 'For providing evidence-based practices in autism education'
     }

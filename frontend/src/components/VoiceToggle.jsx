@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { stopSpeaking } from '../utils/voiceService';
 import './VoiceToggle.css';
 

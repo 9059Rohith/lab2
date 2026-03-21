@@ -2,7 +2,6 @@
 
 let speechSynthesis = null;
 let currentUtterance = null;
-let voicesLoaded = false;
 
 if (typeof window !== 'undefined') {
   speechSynthesis = window.speechSynthesis;
@@ -14,7 +13,6 @@ if (typeof window !== 'undefined') {
     // Listen for voices to be loaded
     if (speechSynthesis.onvoiceschanged !== undefined) {
       speechSynthesis.onvoiceschanged = () => {
-        voicesLoaded = true;
         console.log('Voices loaded:', speechSynthesis.getVoices().length);
       };
     }
