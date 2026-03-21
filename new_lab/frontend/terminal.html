@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terminal Resume</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="theme-default">
+  <header class="term-toolbar">
+    <a href="./index.html">← Back</a>
+    <div class="toolbar-controls">
+      <label>Theme
+        <select id="themeSelect">
+          <option value="default">Default</option>
+          <option value="dracula">Dracula</option>
+          <option value="solarized">Solarized</option>
+          <option value="nord">Nord</option>
+        </select>
+      </label>
+      <button id="splitH">Split H</button>
+      <button id="splitV">Split V</button>
+      <button id="singlePane">Single</button>
+    </div>
+  </header>
+
+  <main class="terminal-wrap single" id="terminalWrap">
+    <section class="terminal-pane" id="paneMain">
+      <div class="output" id="output"></div>
+      <div class="prompt-row">
+        <span>guest@neo:$</span>
+        <input id="cmdInput" autocomplete="off" autofocus />
+      </div>
+    </section>
+    <aside class="terminal-pane side" id="paneSide">
+      <h3>Preview Pane</h3>
+      <p>Run <code>help</code> to explore commands.</p>
+      <div id="sideContent"></div>
+    </aside>
+  </main>
+
+  <div class="snake-modal hidden" id="snakeModal">
+    <div class="snake-card">
+      <button id="closeSnake">Close</button>
+      <h3>Snake</h3>
+      <div id="snakeRoot"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js" integrity="sha512-pGSv7C2jJ2Mflf8L4S6xJubfM8HIifQ68f5U2G+y6M9MmkAohs3Wwqf4xslM8HdSAhX/FfQe7k5xM7M9Qn09sA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
